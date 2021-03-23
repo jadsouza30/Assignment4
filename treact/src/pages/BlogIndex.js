@@ -98,12 +98,15 @@ export default ({
   const [toggleU, setToggleU] = useState(false);
   const [toggleE, setToggleE] = useState(false);
 
+  {/* Toggle User Button: Filter database by users */}
   const toggleButtonU = () => {
     setToggleU(!toggleU);
   }
+  {/* Toggle Event Button: Filter database by events */}
   const toggleButtonE = () => {
     setToggleE(!toggleE);
   }
+  {/*Otherwise, search through whole database?*/}
 
   let buttonClassU = toggleU ? "darkButton" : "lightButton";
   let buttonClassE = toggleE ? "darkButton" : "lightButton";
@@ -195,6 +198,7 @@ export default ({
           </div>
           <Posts>
           <p style={{textAlign:'center'}}><i> Search through these events:</i> </p>
+          {/* Call database or home page here (currently hard-coded by template) */}
 
             {posts.slice(0, visible).map((post, index) => (
               <PostContainer key={index} featured={post.featured}>
