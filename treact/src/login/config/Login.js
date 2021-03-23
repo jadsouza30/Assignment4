@@ -16,10 +16,12 @@ constructor(props)
 }
 login(e){
     e.preventDefault();
-    fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password).then((u)=>{
-        console.log(u)
-    }).catch((err)=>{
-        console.log(err);
+    fire.auth().setPersistence(fire.auth.Auth.Persistence.SESSION).then(() => {
+       fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password).then((u)=>{
+           console.log(u)
+       }).catch((err)=>{
+           console.log(err);
+       })
     })
 }
 signup(e){

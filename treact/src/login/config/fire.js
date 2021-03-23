@@ -12,4 +12,14 @@ var firebaseConfig = {
 
   const fire = firebase.initializeApp(firebaseConfig);
 
+  //is called automatically when there is a change in user state
+  fire.auth().onAuthStateChanged((user) => {
+    if (user) {
+      //var uid = user.uid;
+    } else {
+      // User is signed out
+      user.logout();
+    }
+  });
+
   export default fire;
