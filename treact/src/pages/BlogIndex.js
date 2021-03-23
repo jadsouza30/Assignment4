@@ -8,6 +8,11 @@ import Header from "components/headers/light.js";
 import Footer from "components/footers/FiveColumnWithInputForm.js";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton } from "components/misc/Buttons";
+import "styles/search.css";
+import { FiSearch, FiFilter } from "react-icons/fi";
+import Fuse from "fuse.js";
+
+
 
 const HeadingRow = tw.div`flex`;
 const Heading = tw(SectionHeading)`text-gray-900`;
@@ -47,7 +52,7 @@ const ButtonContainer = tw.div`flex justify-center`;
 const LoadMoreButton = tw(PrimaryButton)`mt-16 mx-auto`;
 
 export default ({
-  headingText = "Blog Posts",
+  headingText = "Find Events and Users",
   posts = [
     {
       imageSrc:
@@ -84,7 +89,81 @@ export default ({
   const onLoadMoreClick = () => {
     setVisible(v => v + 6);
   };
+  const [data, setData] = useState(posts);
+  console.log("setting data");
+  const dataArray = Object.entries(data);
+
+  const [container, setContainer] = useState("");
+
+  const [toggleU, setToggleU] = useState(false);
+  const [toggleE, setToggleE] = useState(false);
+
+  const toggleButtonU = () => {
+    setToggleU(!toggleU);
+  }
+  const toggleButtonE = () => {
+    setToggleE(!toggleE);
+  }
+
+  let buttonClassU = toggleU ? "darkButton" : "lightButton";
+  let buttonClassE = toggleE ? "darkButton" : "lightButton";
+
+  const searchData = (pattern) => {
+    console.log(pattern);
+    if (!pattern) {
+      setData(posts);
+      return;
+    }
+    const fuse = new Fuse(posts, {
+      keys: ['title', 'description'],
+    });
+
+    const result = fuse.search(pattern);
+    const matches = [];
+
+
+    if (!result.length) {
+      document.getElementById(SearchContainer).innerHTML =  "Sorry, no results for " ({pattern});
+      //setData([]);
+    } else {
+      console.log("here");
+      result.forEach(({item}) => {
+        matches.push(item);
+      });
+      //setData(matches);
+      console.log("array of matches: ", matches);
+    }
+    return matches;
+  };
+
+  const ShowResults = (value) => {
+    console.log("search term: ", value.value);
+    let matchesArray = searchData(value.value);
+    if (!matchesArray) return;
+    console.log("returned array of matches: ", matchesArray);
+    return (
+      <Posts>
+      <p style={{textAlign:'center'}}><i> Search results:</i> </p>
+
+        {matchesArray.slice(0, visible).map((post, index) => (
+          <PostContainer key={index} featured={post.featured}>
+            <Post className="group" as="a" href={post.url}>
+              <Image imageSrc={post.imageSrc} />
+              <Info>
+                <Category>{post.category}</Category>
+                <CreationDate>{post.date}</CreationDate>
+                <Title>{post.title}</Title>
+                {post.featured && post.description && <Description>{post.description}</Description>}
+              </Info>
+            </Post>
+          </PostContainer>
+        ))}
+      </Posts>
+    );
+  };
+
   return (
+
     <AnimationRevealPage>
       <Header />
       <Container>
@@ -92,7 +171,31 @@ export default ({
           <HeadingRow>
             <Heading>{headingText}</Heading>
           </HeadingRow>
+          {/*Search Bar*/}
+          <div className = "Search">
+            <input
+                className = "SearchInput"
+                type = "text"
+                onChange = {e => {setData(e.target.value);}}
+                placeholder = "Search by user, event, time..."
+            />
+            <button className ="SearchSpan" onClick = {(e) => setContainer("show")}>
+            <span><FiSearch /> </span>
+            </button>
+      </div>
+      <div className = "btn-group">
+        <span style = {{margin: '0 auto', color: 'darkslateblue', textAlign: 'center'}}>
+        <p>Choose an option to filter: </p> </span>
+        <button onClick = {toggleButtonU} className = {buttonClassU}> Users </button>
+        <button onClick = {toggleButtonE} className = {buttonClassE}> Events </button>
+      </div>
+          {/* End Search Bar*/}
+          <div className = "container">
+            {container === "show" && <ShowResults value = {data}/>}
+          </div>
           <Posts>
+          <p style={{textAlign:'center'}}><i> Search through these events:</i> </p>
+
             {posts.slice(0, visible).map((post, index) => (
               <PostContainer key={index} featured={post.featured}>
                 <Post className="group" as="a" href={post.url}>
