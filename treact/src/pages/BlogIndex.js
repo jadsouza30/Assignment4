@@ -126,7 +126,7 @@ export default ({
 
 
     if (!result.length) {
-      document.getElementById(SearchContainer).innerHTML =  "Sorry, no results for " ({pattern});
+      //document.getElementById(SearchContainer).innerHTML =  "Sorry, no results for " ({pattern});
       //setData([]);
     } else {
       console.log("here");
