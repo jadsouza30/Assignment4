@@ -101,9 +101,6 @@ import FiveColumnDarkFooter from "components/footers/FiveColumnDark.js";
 import MiniCenteredFooter from "components/footers/MiniCenteredFooter.js";
 
 import App from "login/App.js"
-import fire from "login/config/fire.js"
-import Home from "login/config/Home.js"
-import Login from "login/config/Login.js"
 
 
 export const components = {
