@@ -22,11 +22,29 @@ h1 {
   width: 30%;
   text-align: center;
   padding: 10px;
-  margin: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.darkButton {
+  background: darkslateblue;
+  color: powderblue;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50%;
+}
+.lightButton {
+  background: powderblue;
+  color: darkslateblue;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  width: 50%;
 }
 
 .Search {
-  width: 400px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -34,8 +52,6 @@ h1 {
 
 .SearchButton {
   text-align: center;
-  color:darkslateblue;
-  background: powderblue;
   border-radius: 5px;
   padding: 5px;
   width: 50%;
