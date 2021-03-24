@@ -1,24 +1,25 @@
 import firebase from 'firebase';
 
 var firebaseConfig = {
-    apiKey: "AIzaSyA__HzNvBmWSCGF6Hzrdbq5B6iMhT7M5Xk",
-    authDomain: "react-firebase-auth-7efa9.firebaseapp.com",
-    projectId: "react-firebase-auth-7efa9",
-    storageBucket: "react-firebase-auth-7efa9.appspot.com",
-    messagingSenderId: "44685723325",
-    appId: "1:44685723325:web:17be758281557599d359d4",
-    measurementId: "G-GHZPHRJH6L"
+  apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
+  authDomain: "proevento-69c0b.firebaseapp.com",
+  projectId: "proevento-69c0b",
+  storageBucket: "proevento-69c0b.appspot.com",
+  messagingSenderId: "681502722062",
+  appId: "1:681502722062:web:1a7e45f8c43cd9efd2145f",
+  measurementId: "G-DRXMTZZBW3"
   };
 
   const fire = firebase.initializeApp(firebaseConfig);
 
-  //should call when loading every page
-  /*fire.auth().onAuthStateChanged((user) => {
+  //is called automatically when there is a change in user state
+  fire.auth().onAuthStateChanged((user) => {
     if (user) {
       //var uid = user.uid;
     } else {
       // User is signed out
       user.logout();
     }
-  });*/
+  });
+
   export default fire;
