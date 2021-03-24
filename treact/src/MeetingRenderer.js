@@ -519,7 +519,16 @@ export const components = {
 }
 
 export default () => {
+    const {type,id}=useParams()
+    /*
   const { type, subtype, name, id } = useParams()
+  if(id)
+  {
+    Component= components[type]['Meeting'].component
+      return <AnimationRevealPage disabled>
+          <Component/>
+        </AnimationRevealPage>
+  }
 
   try {
     let Component = null;
@@ -541,4 +550,8 @@ export default () => {
     console.log(e)
     return <div>Error: Component Not Found</div>
   }
+  */
+ return (
+     Meeting(id)
+ );
 }

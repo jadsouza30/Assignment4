@@ -17,30 +17,30 @@ import "@zoomus/websdk/dist/css/react-select.css";
 
 var signatureEndpoint = 'http://localhost:4000'
 var apiKey = 'y79B-jVQTySE6KkGoDc7JA'
-var meetingNumber = '5027038715'
-var role = 1
-var leaveUrl = 'http://localhost:3001/components/innerPages/PrivacyPolicyPage'
+var meetingNumber = '9279407407'
+var role = 0
+var leaveUrl = 'http://localhost:3000'
 var userName = 'React'
 var userEmail = 'jasondsouza0530@gmail.com'
-var passWord = 'ApM6q0'
+var passWord = '151381'
 
-function getSignature() {
+function getSignature(id) {
     fetch(signatureEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        meetingNumber: meetingNumber,
+        meetingNumber: id,
         role: role
       })
     }).then(res => res.json())
     .then(response => {
-      startMeeting(response.signature)
+      startMeeting(response.signature,id)
     }).catch(error => {
       console.error(error)
     })
 }
 
-function startMeeting(signature) {
+function startMeeting(signature,id) {
     const { ZoomMtg } = require('@zoomus/websdk');
 
     ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.1/lib', '/av');
@@ -56,7 +56,7 @@ function startMeeting(signature) {
 
             ZoomMtg.join({
                 signature: signature,
-                meetingNumber: meetingNumber,
+                meetingNumber: id,
                 userName: userName,
                 apiKey: apiKey,
                 userEmail: userEmail,
@@ -75,8 +75,8 @@ function startMeeting(signature) {
     })
 }
 
-export default () =>{
-    getSignature();
+export default (id) =>{
+    getSignature(id);
     return(
         <div>
         </div>
