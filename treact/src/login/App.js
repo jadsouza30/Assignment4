@@ -3,6 +3,7 @@ import './App.css';
 import fire from './config/fire';
 import Login from './config/Login'
 import Home from './config/Home'
+import BlogIndex from 'pages/BlogIndex';
 
 
 class App extends Component{
@@ -32,7 +33,7 @@ class App extends Component{
   render(){
     return(
       <div className="App">
-        {this.state.user ? (<Home/>) : (<Login/>)}
+        {this.state.user ? (<BlogIndex />) : (<Login/>)}
       </div>
     );
   }
