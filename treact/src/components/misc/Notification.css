@@ -1,0 +1,12 @@
+.btn {
+  border: 2px solid black;
+  border-color: black;
+  border-radius: 5px;
+}
+
+.noti {
+  float: right;
+  padding-right: 15px;
+  position: relative;
+  z-index: 1;
+}

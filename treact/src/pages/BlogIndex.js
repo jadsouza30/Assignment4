@@ -11,7 +11,7 @@ import { PrimaryButton } from "components/misc/Buttons";
 import "styles/search.css";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Fuse from "fuse.js";
-
+import Notification from "components/misc/Notification"
 
 
 const HeadingRow = tw.div`flex`;
@@ -169,6 +169,7 @@ export default ({
 
     <AnimationRevealPage>
       <Header />
+      <Notification />
       <Container>
         <ContentWithPaddingXl>
           <HeadingRow>
