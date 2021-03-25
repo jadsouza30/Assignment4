@@ -113,6 +113,9 @@ export default function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/Meeting/:type/:id">
+          <MeetingRenderer/>
+        </Route>
         <Route path="/components/:type/Meeting/:id">
           <MeetingRenderer />
         </Route>
