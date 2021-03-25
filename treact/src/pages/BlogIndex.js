@@ -12,6 +12,7 @@ import "styles/search.css";
 import firebasefunctions from "firebasefunctions";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Fuse from "fuse.js";
+import Notification from "components/misc/Notification";
 
 const HeadingRow = tw.div`flex`;
 const Heading = tw(SectionHeading)`text-gray-900`;
@@ -179,24 +180,8 @@ export default ({
 
   return (
     <AnimationRevealPage>
-      <Header>
-        <div>
-          <ul id="nav">
-            <li>
-              <a href="#">Search</a>
-            </li>
-            <li>
-              <a href="#">Events</a>
-            </li>
-            <li>
-              <a href="#">Profile</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </Header>
+      <Header />
+      <Notification />
       <Container>
         <ContentWithPaddingXl>
           <HeadingRow>

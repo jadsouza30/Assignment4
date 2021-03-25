@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from 'react-router-dom';
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container, ContentWithPaddingXl } from "components/misc/Layouts";
 import tw from "twin.macro";
@@ -19,7 +20,7 @@ var signatureEndpoint = 'http://localhost:4000'
 var apiKey = 'y79B-jVQTySE6KkGoDc7JA'
 var meetingNumber = '9279407407'
 var role = 0
-var leaveUrl = 'http://localhost:3000'
+var leaveUrl = '/Meeting/landing/'
 var userName = 'React'
 var userEmail = 'jasondsouza0530@gmail.com'
 var passWord = '151381'
@@ -48,7 +49,7 @@ function startMeeting(signature,id) {
     ZoomMtg.prepareJssdk();
 
     ZoomMtg.init({
-        leaveUrl: leaveUrl,
+        leaveUrl: leaveUrl+parseInt(id),
         isSupportAV: true,
         success: (success) => {
             console.log("here");
