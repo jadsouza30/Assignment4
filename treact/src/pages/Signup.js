@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
@@ -9,6 +9,7 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+import axios from 'axios'
 
 const Container = tw(
   ContainerBase
@@ -77,8 +78,17 @@ export default ({
   privacyPolicyUrl = "#",
   signInUrl = "#",
 }) => {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [category, setCategory] = useState('')
+  const [number,setNumber]=useState(0)
+
   const submitFunc=()=>{
-    alert("here");
+    var time=startTime+":00Z";
+    var dateTime=startDate+"T"+time;
+
   };
 
   return (
@@ -93,11 +103,12 @@ export default ({
             <Heading>Create an Event</Heading>
             <FormContainer>
               <Form>
-                <Input type="text" placeholder="Event Name" />
-                <Input type="text" placeholder="Description" />
-                <Input type="time" placeholder="Start Time"/>
-                <Input type="date" placeholder="Start Date"/>
-                <Input type="text" placeholder="Category"/>
+                <Input type="text" placeholder="Event Name" onChange={event => setName(event.target.value)}/>
+                <Input type="text" placeholder="Description" onChange={event => setDescription(event.target.value)}/>
+                <Input type="time" placeholder="Start Time" onChange={event => setStartTime(event.target.value)}/>
+                <Input type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
+                <Input type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
+                <Input type="number" placeholder="Zoom Meeting ID" onChange={event => setNumber(event.target.value)}/>
                 <SubmitButton type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
                   <span className="text">Create</span>

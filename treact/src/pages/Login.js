@@ -9,6 +9,10 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
+import firebase from 'firebase'
+import * as firebaseui from 'firebaseui'
+import 'firebaseui/dist/firebaseui.css'
+
 const Container = tw(
   ContainerBase
 )`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
@@ -74,7 +78,45 @@ export default ({
   SubmitButtonIcon = LoginIcon,
   forgotPasswordUrl = "#",
   signupUrl = "#",
-}) => (
+}) => {
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+  var uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        // User successfully signed in.
+        // Return type determines whether we continue the redirect automatically
+        // or whether we leave that to developer to handle.
+        return true;
+      },
+      uiShown: function() {
+        // The widget is rendered.
+        // Hide the loader.
+        document.getElementById('loader').style.display = 'none';
+      }
+    },
+    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+    signInFlow: 'popup',
+    signInSuccessUrl: "/",
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID
+    ],
+    // Terms of service url.
+    tosUrl: '<your-tos-url>',
+    // Privacy policy url.
+    privacyPolicyUrl: '<your-privacy-policy-url>'
+  };
+
+  ui.start('#firebaseui-auth-container', uiConfig);
+
+
+  return (
   <AnimationRevealPage>
     <Container>
       <Content>
@@ -83,41 +125,11 @@ export default ({
             <LogoImage src={logo} />
           </LogoLink>
           <MainContent>
-            <Heading>{headingText}</Heading>
+            <Heading>Sign In or Sign Up</Heading>
             <FormContainer>
-              <SocialButtonsContainer>
-                {socialButtons.map((socialButton, index) => (
-                  <SocialButton key={index} href={socialButton.url}>
-                    <span className="iconContainer">
-                      <img
-                        src={socialButton.iconImageSrc}
-                        className="icon"
-                        alt=""
-                      />
-                    </span>
-                    <span className="text">{socialButton.text}</span>
-                  </SocialButton>
-                ))}
-              </SocialButtonsContainer>
-              <DividerTextContainer>
-                <DividerText>Or Sign in with your e-mail</DividerText>
-              </DividerTextContainer>
-              <Form>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <SubmitButton type="submit">
-                  <SubmitButtonIcon className="icon" />
-                  <span className="text">{submitButtonText}</span>
-                </SubmitButton>
-              </Form>
-              <p tw="mt-6 text-xs text-gray-600 text-center">
-                <a
-                  href={forgotPasswordUrl}
-                  tw="border-b border-gray-500 border-dotted"
-                >
-                  Forgot Password ?
-                </a>
-              </p>
+            <div id="firebaseui-auth-container"></div>
+            <div id="loader">Loading...</div>     
+              
               <p tw="mt-8 text-sm text-gray-600 text-center">
                 Dont have an account?{" "}
                 <a href={signupUrl} tw="border-b border-gray-500 border-dotted">
@@ -127,10 +139,7 @@ export default ({
             </FormContainer>
           </MainContent>
         </MainContainer>
-        <IllustrationContainer>
-          <IllustrationImage imageSrc={illustrationImageSrc} />
-        </IllustrationContainer>
       </Content>
     </Container>
   </AnimationRevealPage>
-);
+)};
