@@ -102,7 +102,9 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 // import PrivacyPolicyPage from "pages/PrivacyPolicy.js";
 
 import ComponentRenderer from "ComponentRenderer.js";
+import MeetingRenderer from "MeetingRenderer.js";
 import MainLandingPage from "MainLandingPage.js";
+import { firebase } from "./backend/config";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -111,6 +113,12 @@ export default function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/Meeting/:type/:id">
+          <MeetingRenderer/>
+        </Route>
+        <Route path="/components/:type/Meeting/:id">
+          <MeetingRenderer />
+        </Route>
         <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route>

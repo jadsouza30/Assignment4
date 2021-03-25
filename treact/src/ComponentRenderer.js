@@ -25,6 +25,7 @@ import PricingPage from "pages/Pricing.js";
 import AboutUsPage from "pages/AboutUs.js";
 import ContactUsPage from "pages/ContactUs.js";
 import BlogIndexPage from "pages/BlogIndex.js";
+import Meeting from "pages/Meeting.js";
 import TermsOfServicePage from "pages/TermsOfService.js";
 import PrivacyPolicyPage from "pages/PrivacyPolicy.js";
 
@@ -189,6 +190,10 @@ export const components = {
       imageSrc: LoginPageImageSrc,
       scrollAnimationDisabled: true,
       url: "/components/innerPages/LoginPage2",
+    },
+    Meeting:{
+      component: Meeting,
+      url:'/components/innerPages/Meeting',
     }
   },
 
@@ -514,7 +519,7 @@ export const components = {
 }
 
 export default () => {
-  const { type, subtype, name } = useParams()
+  const { type, subtype, name, id } = useParams()
 
   try {
     let Component = null;
