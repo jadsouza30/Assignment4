@@ -76,7 +76,12 @@ export default ({
   tosUrl = "#",
   privacyPolicyUrl = "#",
   signInUrl = "#",
-}) => (
+}) => {
+  const submitFunc=()=>{
+    alert("here");
+  };
+
+  return (
   <AnimationRevealPage>
     <Container>
       <Content>
@@ -85,31 +90,17 @@ export default ({
             <LogoImage src={logo} />
           </LogoLink>
           <MainContent>
-            <Heading>{headingText}</Heading>
+            <Heading>Create an Event</Heading>
             <FormContainer>
-              <SocialButtonsContainer>
-                {socialButtons.map((socialButton, index) => (
-                  <SocialButton key={index} href={socialButton.url}>
-                    <span className="iconContainer">
-                      <img
-                        src={socialButton.iconImageSrc}
-                        className="icon"
-                        alt=""
-                      />
-                    </span>
-                    <span className="text">{socialButton.text}</span>
-                  </SocialButton>
-                ))}
-              </SocialButtonsContainer>
-              <DividerTextContainer>
-                <DividerText>Or Sign up with your e-mail</DividerText>
-              </DividerTextContainer>
               <Form>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <SubmitButton type="submit">
+                <Input type="text" placeholder="Event Name" />
+                <Input type="text" placeholder="Description" />
+                <Input type="time" placeholder="Start Time"/>
+                <Input type="date" placeholder="Start Date"/>
+                <Input type="text" placeholder="Category"/>
+                <SubmitButton type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
-                  <span className="text">{submitButtonText}</span>
+                  <span className="text">Create</span>
                 </SubmitButton>
 
                 <p tw="mt-6 text-xs text-gray-600 text-center">
@@ -145,4 +136,4 @@ export default ({
       </Content>
     </Container>
   </AnimationRevealPage>
-);
+)};
