@@ -9,17 +9,16 @@ import Footer from "components/footers/FiveColumnWithInputForm.js";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton } from "components/misc/Buttons";
 import "styles/search.css";
+import firebasefunctions from "firebasefunctions";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Fuse from "fuse.js";
-
-
 
 const HeadingRow = tw.div`flex`;
 const Heading = tw(SectionHeading)`text-gray-900`;
 const Posts = tw.div`mt-6 sm:-mr-8 flex flex-wrap`;
 const PostContainer = styled.div`
   ${tw`mt-10 w-full sm:w-1/2 lg:w-1/3 sm:pr-8`}
-  ${props =>
+  ${(props) =>
     props.featured &&
     css`
       ${tw`w-full!`}
@@ -37,9 +36,13 @@ const PostContainer = styled.div`
       }
     `}
 `;
+
 const Post = tw.div`cursor-pointer flex flex-col bg-gray-100 rounded-lg`;
 const Image = styled.div`
-  ${props => css`background-image: url("${props.imageSrc}");`}
+  ${(props) =>
+    css`
+      background-image: url("${props.imageSrc}");
+    `}
   ${tw`h-64 w-full bg-cover bg-center rounded-t-lg`}
 `;
 const Info = tw.div`p-8 border-2 border-t-0 rounded-lg rounded-t-none`;
@@ -63,7 +66,7 @@ export default ({
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       url: "https://timerse.com",
-      featured: true
+      featured: true,
     },
     getPlaceholderPost(),
     getPlaceholderPost(),
@@ -82,12 +85,12 @@ export default ({
     getPlaceholderPost(),
     getPlaceholderPost(),
     getPlaceholderPost(),
-    getPlaceholderPost()
-  ]
+    getPlaceholderPost(),
+  ],
 }) => {
   const [visible, setVisible] = useState(7);
   const onLoadMoreClick = () => {
-    setVisible(v => v + 6);
+    setVisible((v) => v + 6);
   };
   const [data, setData] = useState(posts);
   console.log("setting data");
@@ -98,15 +101,21 @@ export default ({
   const [toggleU, setToggleU] = useState(false);
   const [toggleE, setToggleE] = useState(false);
 
-  {/* Toggle User Button: Filter database by users */}
+  {
+    /* Toggle User Button: Filter database by users */
+  }
   const toggleButtonU = () => {
     setToggleU(!toggleU);
+  };
+  {
+    /* Toggle Event Button: Filter database by events */
   }
-  {/* Toggle Event Button: Filter database by events */}
   const toggleButtonE = () => {
     setToggleE(!toggleE);
+  };
+  {
+    /*Otherwise, search through whole database?*/
   }
-  {/*Otherwise, search through whole database?*/}
 
   let buttonClassU = toggleU ? "darkButton" : "lightButton";
   let buttonClassE = toggleE ? "darkButton" : "lightButton";
@@ -118,19 +127,18 @@ export default ({
       return;
     }
     const fuse = new Fuse(posts, {
-      keys: ['title', 'description'],
+      keys: ["title", "description"],
     });
 
     const result = fuse.search(pattern);
     const matches = [];
-
 
     if (!result.length) {
       //document.getElementById(SearchContainer).innerHTML =  "Sorry, no results for " ({pattern});
       //setData([]);
     } else {
       console.log("here");
-      result.forEach(({item}) => {
+      result.forEach(({ item }) => {
         matches.push(item);
       });
       //setData(matches);
@@ -146,7 +154,9 @@ export default ({
     console.log("returned array of matches: ", matchesArray);
     return (
       <Posts>
-      <p style={{textAlign:'center'}}><i> Search results:</i> </p>
+        <p style={{ textAlign: "center" }}>
+          <i> Search results:</i>{" "}
+        </p>
 
         {matchesArray.slice(0, visible).map((post, index) => (
           <PostContainer key={index} featured={post.featured}>
@@ -156,7 +166,9 @@ export default ({
                 <Category>{post.category}</Category>
                 <CreationDate>{post.date}</CreationDate>
                 <Title>{post.title}</Title>
-                {post.featured && post.description && <Description>{post.description}</Description>}
+                {post.featured && post.description && (
+                  <Description>{post.description}</Description>
+                )}
               </Info>
             </Post>
           </PostContainer>
@@ -166,39 +178,77 @@ export default ({
   };
 
   return (
-
     <AnimationRevealPage>
-      <Header />
+      <Header>
+        <div>
+          <ul id="nav">
+            <li>
+              <a href="#">Search</a>
+            </li>
+            <li>
+              <a href="#">Events</a>
+            </li>
+            <li>
+              <a href="#">Profile</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </Header>
       <Container>
         <ContentWithPaddingXl>
           <HeadingRow>
             <Heading>{headingText}</Heading>
           </HeadingRow>
           {/*Search Bar*/}
-          <div className = "Search">
+          <div className="Search">
             <input
-                className = "SearchInput"
-                type = "text"
-                onChange = {e => {setData(e.target.value);}}
-                placeholder = "Search by user, event, time..."
+              className="SearchInput"
+              type="text"
+              onChange={(e) => {
+                setData(e.target.value);
+              }}
+              placeholder="Search by user, event, time..."
             />
-            <button className ="SearchSpan" onClick = {(e) => setContainer("show")}>
-            <span><FiSearch /> </span>
+            <button
+              className="SearchSpan"
+              onClick={(e) => setContainer("show")}
+            >
+              <span>
+                <FiSearch />{" "}
+              </span>
             </button>
-      </div>
-      <div className = "btn-group">
-        <span style = {{margin: '0 auto', color: 'darkslateblue', textAlign: 'center'}}>
-        <p>Choose an option to filter: </p> </span>
-        <button onClick = {toggleButtonU} className = {buttonClassU}> Users </button>
-        <button onClick = {toggleButtonE} className = {buttonClassE}> Events </button>
-      </div>
+          </div>
+          <div className="btn-group">
+            <span
+              style={{
+                margin: "0 auto",
+                color: "darkslateblue",
+                textAlign: "center",
+              }}
+            >
+              <p>Choose an option to filter: </p>{" "}
+            </span>
+            <button onClick={toggleButtonU} className={buttonClassU}>
+              {" "}
+              Users{" "}
+            </button>
+            <button onClick={toggleButtonE} className={buttonClassE}>
+              {" "}
+              Events{" "}
+            </button>
+          </div>
           {/* End Search Bar*/}
-          <div className = "container">
-            {container === "show" && <ShowResults value = {data}/>}
+          <div className="container">
+            {container === "show" && <ShowResults value={data} />}
           </div>
           <Posts>
-          <p style={{textAlign:'center'}}><i> Search through these events:</i> </p>
-          {/* Call database or home page here (currently hard-coded by template) */}
+            <p style={{ textAlign: "center" }}>
+              <i> Search through these events:</i>{" "}
+            </p>
+            {/* Call database or home page here (currently hard-coded by template) */}
 
             {posts.slice(0, visible).map((post, index) => (
               <PostContainer key={index} featured={post.featured}>
@@ -208,7 +258,9 @@ export default ({
                     <Category>{post.category}</Category>
                     <CreationDate>{post.date}</CreationDate>
                     <Title>{post.title}</Title>
-                    {post.featured && post.description && <Description>{post.description}</Description>}
+                    {post.featured && post.description && (
+                      <Description>{post.description}</Description>
+                    )}
                   </Info>
                 </Post>
               </PostContainer>
@@ -216,7 +268,9 @@ export default ({
           </Posts>
           {visible < posts.length && (
             <ButtonContainer>
-              <LoadMoreButton onClick={onLoadMoreClick}>Load More</LoadMoreButton>
+              <LoadMoreButton onClick={onLoadMoreClick}>
+                Load More
+              </LoadMoreButton>
             </ButtonContainer>
           )}
         </ContentWithPaddingXl>
@@ -234,5 +288,5 @@ const getPlaceholderPost = () => ({
   title: "Visit the beautiful Alps in Switzerland",
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  url: "https://reddit.com"
+  url: "https://reddit.com",
 });

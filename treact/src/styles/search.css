@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap");
 
 h1 {
   text-align: center;
-  color: #9D2235;
-  font-family: 'Open Sans', sans-serif;
+  color: #9d2235;
+  font-family: "Open Sans", sans-serif;
   padding: 25px;
   font-size: xx-large;
 }
@@ -62,7 +62,7 @@ h1 {
   width: 15%;
   border: 1px solid powderblue;
   padding-left: 18px;
-  color:darkslateblue;
+  color: darkslateblue;
   background: powderblue;
   border-radius: 0 5px 5px 0;
   font-size: 20px;
@@ -70,11 +70,11 @@ h1 {
 
 .SearchSpan:hover {
   color: white;
-  background: #9D2235;
+  background: #9d2235;
 }
 
 .SearchSpan:active {
-  color: #9D2235;
+  color: #9d2235;
   background: powderblue;
 }
 
@@ -126,4 +126,23 @@ h1 {
 .InfoDescr {
   font-size: 14px;
   float: left;
+}
+#nav {
+  width: 100%;
+  float: left;
+  margin: 0 0 3em 0;
+  padding: 0;
+  list-style: none;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+#nav li a {
+  display: block;
+  padding: 8px 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #069;
+  border-right: 1px solid #ccc;
 }
