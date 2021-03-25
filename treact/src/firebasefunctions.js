@@ -27,7 +27,7 @@ const firebase_functions = {
       });
   },
 
-  fetUser: async function (firebaseRef) {
+  fetchUser: async function (firebaseRef) {
     const response = await firebaseRef
       .child("users_public")
       .child(global.userId)
@@ -46,7 +46,9 @@ const firebase_functions = {
     zoom_id,
     start_time,
     firebaseRef,
-    event_title
+    event_title,
+    category,
+    startTime
   ) {
     //create unique event id
     var event_id = uniqid;
@@ -57,6 +59,8 @@ const firebase_functions = {
       url: zoom_id,
       event_image: img_,
       event_title: event_title,
+      category: category,
+      startTime: startTime,
     });
     console.log("event created!");
     firebaseRef
