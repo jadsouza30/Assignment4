@@ -1,7 +1,11 @@
 import "tailwindcss/dist/base.css";
 import "styles/globalStyles.css";
-import React from "react";
+import React,{Component} from "react";
+import Main from './src2/Component/Main/Main'
+import Login from './login/config/Login'
+import Profile from './src2/Component/Profile/Profile'
 import { css } from "styled-components/macro"; //eslint-disable-line
+import {toast, ToastContainer} from 'react-toastify'
 
 /*
  * This is the entry point component of this project. You can change the below exported default App component to any of
@@ -108,9 +112,24 @@ import { firebase } from "./backend/config";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-export default function App() {
+export default class App extends Component{
   // return <AnimationRevealPage disabled></AnimationRevealPage>;
-  return (
+  showToast = (type, message) => {
+    // 0 = warning, 1 = success
+    switch (type) {
+        case 0:
+            toast.warning(message)
+            break
+        case 1:
+            toast.success(message)
+            break
+        default:
+            break
+    }
+  }
+  render()
+  {
+    return (
     <Router>
       <Switch>
         <Route path="/Meeting/:type/:id">
@@ -125,12 +144,30 @@ export default function App() {
         <Route path="/components/:type/:name">
           <ComponentRenderer />
         </Route>
-        <Route path="/">
-          <MainLandingPage />
-        </Route>
+
+        <Route
+              path="/chatlogin"
+              render={props => <Login showToast={this.showToast} {...this.props} />}
+          />
+          <Route
+              exact
+              path="/main"
+              render={props => <Main showToast={this.showToast} {...this.props} />}
+          />
+          <Route
+              exact
+              path="/profile"
+              render={props => (
+                  <Profile showToast={this.showToast} {...this.props} />
+              )}
+          />
+          <Route path="/">
+            <MainLandingPage />
+          </Route>
       </Switch>
     </Router>
   );
+              }
 }
 
 // export default EventLandingPage;

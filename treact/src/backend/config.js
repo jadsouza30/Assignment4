@@ -3,6 +3,8 @@ import "@firebase/auth";
 import "@firebase/firestore";
 import "@firebase/database";
 
+const settings = {timestampsInSnapshots: true};
+
 var firebaseConfig = {
   apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
   authDomain: "proevento-69c0b.firebaseapp.com",
@@ -14,7 +16,11 @@ var firebaseConfig = {
   databaseURL: "https://proevento-69c0b-default-rtdb.firebaseio.com",
 };
 
-const fire = firebase.initializeApp(firebaseConfig);
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+  firebase.firestore().settings(settings);
+}
 
 // //is called automatically when there is a change in user state
 // fire.auth().onAuthStateChanged((user) => {
@@ -26,4 +32,4 @@ const fire = firebase.initializeApp(firebaseConfig);
 //   }
 // });
 
-export default fire;
+export default firebase;
