@@ -82,6 +82,7 @@ export default ({
       url: "https://reddit.com",
     },
   ],
+
   //[
   //   {
   //     imageSrc:
@@ -147,7 +148,11 @@ export default ({
       for (let i = 0; i < new_posts.length; i++) {
         console.log(new_posts[i]);
       }
-      setData((posts) => new_posts);
+      posts = new_posts;
+      setData(new_posts);
+      console.log(posts.length);
+      console.log("data set!");
+      return posts;
     })
     .catch((error) => {
       console.log("Error getting documents: ", error);
@@ -282,9 +287,8 @@ export default ({
             <p style={{ textAlign: "center" }}>
               <i> Search through these events:</i>{" "}
             </p>
-            {/* Call database or home page here (currently hard-coded by template) */}
 
-            {posts.slice(0, visible).map((post, index) => (
+            {dataArray.slice(0, visible).map((post, index) => (
               <PostContainer key={index} featured={post.featured}>
                 <Post className="group" as="a" href={post.url}>
                   <Image imageSrc={post.imageSrc} />
@@ -295,7 +299,6 @@ export default ({
                     <Title>{post.title}</Title>
                     <Description>{post.description}</Description>
                   </Info>
-                  d
                 </Post>
               </PostContainer>
             ))}
