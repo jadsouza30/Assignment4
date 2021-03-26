@@ -23,7 +23,7 @@ var role = 0
 var leaveUrl = '/Meeting/landing/'
 var userName = 'React'
 var userEmail = 'jasondsouza0530@gmail.com'
-var passWord = '151381'
+var passWord = 'Hey123'
 
 function getSignature(id) {
     fetch(signatureEndpoint, {
@@ -49,7 +49,7 @@ function startMeeting(signature,id) {
     ZoomMtg.prepareJssdk();
 
     ZoomMtg.init({
-        leaveUrl: leaveUrl+parseInt(id),
+        leaveUrl: leaveUrl+id,
         isSupportAV: true,
         success: (success) => {
             console.log("here");
@@ -83,15 +83,3 @@ export default (id) =>{
         </div>
     );
 };
-
-
-const getPlaceholderPost = () => ({
-  imageSrc:
-    "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
-  category: "Travel Guide",
-  date: "April 19, 2020",
-  title: "Visit the beautiful Alps in Switzerland",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  url: "https://reddit.com"
-});

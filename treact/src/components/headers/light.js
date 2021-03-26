@@ -87,16 +87,14 @@ export default ({
       <NavLink href="/#" tw="lg:ml-12!">
         Login
       </NavLink>
-<<<<<<< HEAD
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/#">
         Sign Up
       </PrimaryLink>
     </NavLinks>,
-=======
+    <NavLinks>
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
       <Notification />
     </NavLinks>
->>>>>>> 63c6fae2a28a17872fbbd320c73e02cb28ded0a5
   ];
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();

@@ -11,6 +11,7 @@ import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
 import firebase from "firebase";
 import {browserHistory} from "react-router";
+import axios from 'axios';
 
 const Container = tw(
   ContainerBase
@@ -94,25 +95,60 @@ export default ({
     var db=firebase.firestore();
     var date=new Date(startDate+" "+startTime);
     var timeStamp=firebase.firestore.Timestamp.fromDate(date);
+    alert("here");
 
-    db.collection("Events").add({
-      MeetingNumber: number,
-      category: category,
-      date: dateTime,
-      description: description,
-      imgSrc: imgSrc,
+    function status(response) {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response)
+      } else {
+        return Promise.reject(new Error(response.statusText))
+      }
+    }
+
+    function json(response) {
+      return response
+    }
+
+    const data={
+      name:name,
+      description:description,
+      startTime:startTime+":00",
       startDate:startDate,
-      startTime:startTime,
-      title:name,
-      date:timeStamp
+      date:timeStamp,
+      category:category,
+      imgSrc:imgSrc
+    };
+    const options={
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    };
+
+    var num;
+
+    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
+    .then((res)=>{
+      console.log(res);
+      num=res.data;
+      db.collection("Events").add({
+        MeetingNumber: `${res.data}`,
+        category: category,
+        date: dateTime,
+        description: description,
+        imgSrc: imgSrc,
+        startDate:startDate,
+        startTime:startTime,
+        title:name,
+        date:timeStamp
+      })
+      .then(function(docRef) {
+        window.location.href="/Meeting/landing/"+res.data;
+      })
+      .catch(function(error){
+        console.error(error);
+      });
     })
-    .then(function(docRef) {
-      alert("Document written with ID: ", docRef.id);
-      window.location.href="/Meeting/landing/"+number;
-    })
-    .catch(function(error){
-      console.error(error);
-    });
   };
 
   return (

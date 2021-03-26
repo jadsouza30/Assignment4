@@ -28,7 +28,7 @@ export default (id) => {
   const [subheading,setSubHeading]=useState("");
  
   var db=firebase.firestore();
-  db.collection("Events").where("MeetingNumber", "==", parseInt(id)).limit(1)
+  db.collection("Events").where("MeetingNumber", "==", id).limit(1)
     .get()
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
