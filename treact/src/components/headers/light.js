@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import Notification from "components/misc/Notification";
+import firebase from "firebase";
 
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
@@ -58,6 +59,24 @@ export const DesktopNavLinks = tw.nav`
   hidden lg:flex flex-1 justify-between items-center
 `;
 
+function Outer(props) {
+  const [change, setchange] = useState(0)
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      setchange(1)
+      return (<Notification id={user.uid}/>);
+    }
+  });
+
+  if (change == 0) {
+    return (<div></div>);
+  }
+  var user = firebase.auth().currentUser; 
+  return (<Notification id={user.uid}/>)
+}
+
+
 export default ({
   roundedHeaderButton = false,
   logoLink,
@@ -90,11 +109,8 @@ export default ({
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/#">
         Sign Up
       </PrimaryLink>
+      <Outer />
     </NavLinks>,
-    <NavLinks>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
-      <Notification />
-    </NavLinks>
   ];
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
