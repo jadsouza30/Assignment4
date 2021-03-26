@@ -10,6 +10,7 @@ import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton } from "components/misc/Buttons";
 import "styles/search.css";
 import firebasefunctions from "firebasefunctions";
+import fire from "../backend/config";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Fuse from "fuse.js";
 import Notification from "components/misc/Notification";
@@ -17,6 +18,7 @@ import Notification from "components/misc/Notification";
 const HeadingRow = tw.div`flex`;
 const Heading = tw(SectionHeading)`text-gray-900`;
 const Posts = tw.div`mt-6 sm:-mr-8 flex flex-wrap`;
+var firebaseRef = fire.database().ref();
 const PostContainer = styled.div`
   ${tw`mt-10 w-full sm:w-1/2 lg:w-1/3 sm:pr-8`}
   ${(props) =>
@@ -57,37 +59,60 @@ const LoadMoreButton = tw(PrimaryButton)`mt-16 mx-auto`;
 
 export default ({
   headingText = "Find Events and Users",
+
   posts = [
     {
       imageSrc:
-        "https://images.unsplash.com/photo-1499678329028-101435549a4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
-      category: "Travel Tips",
-      date: "April 21, 2020",
-      title: "Safely Travel in Foreign Countries",
+        "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
+      category: "Travel Guide",
+      date: "April 19, 2020",
+      title: "Visit the beautiful Alps in Switzerland",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      url: "https://timerse.com",
-      featured: true,
+      url: "https://reddit.com",
     },
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
-    getPlaceholderPost(),
+    {
+      imageSrc:
+        "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
+      category: "Travel Guide",
+      date: "April 19, 2020",
+      title: "Visit the beautiful Alps in Switzerland",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      url: "https://reddit.com",
+    },
   ],
+  //[
+  //   {
+  //     imageSrc:
+  //       "https://images.unsplash.com/photo-1499678329028-101435549a4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
+  //     category: "Travel Tips",
+  //     date: "April 21, 2020",
+  //     title: "Safely Travel in Foreign Countries",
+  //     description:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  //     url: "https://timerse.com",
+  //     featured: true,
+  //   },
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  //   getPlaceholderPost(),
+  // ],
 }) => {
   const [visible, setVisible] = useState(7);
   const onLoadMoreClick = () => {
@@ -101,6 +126,35 @@ export default ({
 
   const [toggleU, setToggleU] = useState(false);
   const [toggleE, setToggleE] = useState(false);
+
+  let new_posts = [];
+  var db = fire.firestore();
+  db.collection("Events")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.id, " => ", doc.data());
+        // setHeading(heading => doc.data().title+" : "+doc.data().date.toDate().toDateString());
+        // setDescript(descript => doc.data().description);
+        // var newUrl="/Meeting/event/"+doc.data().MeetingNumber;
+        // setPrimaryButtonLink(primaryButtonLink => newUrl);
+        // setStartTime(startTime => doc.data().startTime);
+        // setStartDate(startDate => doc.data().startDate);
+        // setImageSrc(imageSr => doc.data().imgSrc);
+        // setSubHeading(subheading => doc.data().category);
+        new_posts.push(doc.data());
+      });
+      for (let i = 0; i < new_posts.length; i++) {
+        console.log(new_posts[i]);
+      }
+      posts = new_posts;
+      setData(new_posts);
+      console.log(posts.length);
+      console.log("data set!");
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
 
   {
     /* Toggle User Button: Filter database by users */
@@ -128,7 +182,7 @@ export default ({
       return;
     }
     const fuse = new Fuse(posts, {
-      keys: ["title", "description"],
+      keys: ["event_title", "description"],
     });
 
     const result = fuse.search(pattern);
@@ -161,15 +215,14 @@ export default ({
 
         {matchesArray.slice(0, visible).map((post, index) => (
           <PostContainer key={index} featured={post.featured}>
-            <Post className="group" as="a" href={post.url}>
+            <Post className="group" as="a" href={post.MeetingNumber}>
               <Image imageSrc={post.imageSrc} />
               <Info>
                 <Category>{post.category}</Category>
-                <CreationDate>{post.date}</CreationDate>
+                <CreationDate>{post.startDate}</CreationDate>
+                <CreationDate>{post.startTime}</CreationDate>
                 <Title>{post.title}</Title>
-                {post.featured && post.description && (
-                  <Description>{post.description}</Description>
-                )}
+                <Description>{post.description}</Description>
               </Info>
             </Post>
           </PostContainer>
@@ -240,11 +293,10 @@ export default ({
                   <Image imageSrc={post.imageSrc} />
                   <Info>
                     <Category>{post.category}</Category>
-                    <CreationDate>{post.date}</CreationDate>
+                    <CreationDate>{post.startDate}</CreationDate>
+                    <CreationDate>{post.startTime}</CreationDate>
                     <Title>{post.title}</Title>
-                    {post.featured && post.description && (
-                      <Description>{post.description}</Description>
-                    )}
+                    <Description>{post.description}</Description>
                   </Info>
                 </Post>
               </PostContainer>
