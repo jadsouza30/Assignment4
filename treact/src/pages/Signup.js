@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
@@ -9,6 +9,8 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+import firebase from "firebase";
+import {browserHistory} from "react-router";
 
 const Container = tw(
   ContainerBase
@@ -76,7 +78,44 @@ export default ({
   tosUrl = "#",
   privacyPolicyUrl = "#",
   signInUrl = "#",
-}) => (
+}) => {
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [category, setCategory] = useState('')
+  const [number,setNumber]=useState(0)
+  const [imgSrc,setImgSrc]=useState("")
+
+  const submitFunc=()=>{
+    var found=false;
+    var time=startTime+":00";
+    var dateTime=startDate+"T"+time;
+    var db=firebase.firestore();
+    var date=new Date(startDate+" "+startTime);
+    var timeStamp=firebase.firestore.Timestamp.fromDate(date);
+
+    db.collection("Events").add({
+      MeetingNumber: number,
+      category: category,
+      date: dateTime,
+      description: description,
+      imgSrc: imgSrc,
+      startDate:startDate,
+      startTime:startTime,
+      title:name,
+      date:timeStamp
+    })
+    .then(function(docRef) {
+      alert("Document written with ID: ", docRef.id);
+      window.location.href="/Meeting/landing/"+number;
+    })
+    .catch(function(error){
+      console.error(error);
+    });
+  };
+
+  return (
   <AnimationRevealPage>
     <Container>
       <Content>
@@ -85,31 +124,19 @@ export default ({
             <LogoImage src={logo} />
           </LogoLink>
           <MainContent>
-            <Heading>{headingText}</Heading>
+            <Heading>Create an Event</Heading>
             <FormContainer>
-              <SocialButtonsContainer>
-                {socialButtons.map((socialButton, index) => (
-                  <SocialButton key={index} href={socialButton.url}>
-                    <span className="iconContainer">
-                      <img
-                        src={socialButton.iconImageSrc}
-                        className="icon"
-                        alt=""
-                      />
-                    </span>
-                    <span className="text">{socialButton.text}</span>
-                  </SocialButton>
-                ))}
-              </SocialButtonsContainer>
-              <DividerTextContainer>
-                <DividerText>Or Sign up with your e-mail</DividerText>
-              </DividerTextContainer>
               <Form>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <SubmitButton type="submit">
+                <Input type="text" placeholder="Event Name" onChange={event => setName(event.target.value)}/>
+                <Input type="text" placeholder="Description" onChange={event => setDescription(event.target.value)}/>
+                <Input type="time" placeholder="Start Time" onChange={event => setStartTime(event.target.value)}/>
+                <Input type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
+                <Input type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
+                <Input type="number" placeholder="Zoom Meeting ID" onChange={event => setNumber(event.target.value)}/>
+                <Input type="text" placeholder="Link to Image" onChange={event => setImgSrc(event.target.value)}/>
+                <SubmitButton type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
-                  <span className="text">{submitButtonText}</span>
+                  <span className="text">Create</span>
                 </SubmitButton>
 
                 <p tw="mt-6 text-xs text-gray-600 text-center">
@@ -145,4 +172,4 @@ export default ({
       </Content>
     </Container>
   </AnimationRevealPage>
-);
+)};
