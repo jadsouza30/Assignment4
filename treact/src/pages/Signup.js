@@ -9,13 +9,8 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
-<<<<<<< HEAD
-import firebase from "firebase/app";
-import "firebase/auth";
-
-=======
-import axios from 'axios'
->>>>>>> e3a64cb85644d223424b14d0a7c136e9100a6390
+import firebase from "firebase";
+import {browserHistory} from "react-router";
 
 const Container = tw(
   ContainerBase
@@ -90,12 +85,34 @@ export default ({
   const [startDate, setStartDate] = useState('')
   const [category, setCategory] = useState('')
   const [number,setNumber]=useState(0)
+  const [imgSrc,setImgSrc]=useState("")
 
   const submitFunc=()=>{
-    var time=startTime+":00Z";
+    var found=false;
+    var time=startTime+":00";
     var dateTime=startDate+"T"+time;
+    var db=firebase.firestore();
+    var date=new Date(startDate+" "+startTime);
+    var timeStamp=firebase.firestore.Timestamp.fromDate(date);
 
->>>>>>> e3a64cb85644d223424b14d0a7c136e9100a6390
+    db.collection("Events").add({
+      MeetingNumber: number,
+      category: category,
+      date: dateTime,
+      description: description,
+      imgSrc: imgSrc,
+      startDate:startDate,
+      startTime:startTime,
+      title:name,
+      date:timeStamp
+    })
+    .then(function(docRef) {
+      alert("Document written with ID: ", docRef.id);
+      window.location.href="/Meeting/landing/"+number;
+    })
+    .catch(function(error){
+      console.error(error);
+    });
   };
 
   return (
@@ -116,6 +133,7 @@ export default ({
                 <Input type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
                 <Input type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
                 <Input type="number" placeholder="Zoom Meeting ID" onChange={event => setNumber(event.target.value)}/>
+                <Input type="text" placeholder="Link to Image" onChange={event => setImgSrc(event.target.value)}/>
                 <SubmitButton type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
                   <span className="text">Create</span>
