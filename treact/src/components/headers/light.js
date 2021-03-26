@@ -80,21 +80,12 @@ export default ({
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">Home</NavLink>
       <NavLink href="/#">Search</NavLink>
       <NavLink href="/#">Profile</NavLink>
-      <NavLink href="/#">Contact Us</NavLink>
       <NavLink href="/#" tw="lg:ml-12!">
         Login
       </NavLink>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/#">
-        Sign Up
-      </PrimaryLink>
     </NavLinks>,
-    <NavLinks>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
-      <Notification />
-    </NavLinks>
   ];
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
@@ -139,6 +130,7 @@ export default ({
           )}
         </NavToggle>
       </MobileNavLinksContainer>
+      <Notification />
     </Header>
   );
 };
