@@ -1,14 +1,15 @@
 import firebase from 'firebase'
 
-const config = {
-    apiKey: "AIzaSyCrpNFY_JEh_2ebDDz7pGTcp4t7sWf53N4",
-    authDomain: "cs310project-be2f6.firebaseapp.com",
-    projectId: "cs310project-be2f6",
-    storageBucket: "cs310project-be2f6.appspot.com",
-    messagingSenderId: "97936795244",
-    appId: "1:97936795244:web:70f7ffdabb00a9f6f01a49",
-    measurementId: "G-5EJF6C4R4H"
-}
+var config = {
+    apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
+    authDomain: "proevento-69c0b.firebaseapp.com",
+    projectId: "proevento-69c0b",
+    storageBucket: "proevento-69c0b.appspot.com",
+    messagingSenderId: "681502722062",
+    appId: "1:681502722062:web:1a7e45f8c43cd9efd2145f",
+    measurementId: "G-DRXMTZZBW3"
+};
+
 
 if (!firebase.apps.length) {
     firebase.initializeApp(config);

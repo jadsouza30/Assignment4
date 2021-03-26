@@ -6,7 +6,6 @@ import images from '../Themes/Images'
 import WelcomeBoard from '../WelcomeBoard/WelcomeBoard'
 import './Main.css'
 import ChatBoard from './../ChatBoard/ChatBoard'
-import {AppString} from './../Const'
 import Head from '../../../components/headers/light.js'
 
 const myFirebase=firebase;
@@ -20,10 +19,21 @@ class Main extends Component {
             isOpenDialogConfirmLogout: false,
             currentPeerUser: null
         }
-        this.currentUserId = localStorage.getItem(AppString.ID)
-        this.currentUserAvatar = localStorage.getItem(AppString.PHOTO_URL)
-        this.currentUserNickname = localStorage.getItem(AppString.NICKNAME)
+        this.currentUserId = 0
+        this.currentUserAvatar = ""
+        this.currentUserNickname = ""
         this.listUser = []
+        this.data={
+            ID: 'id',
+            PHOTO_URL: 'photoUrl',
+            NICKNAME: 'nickname',
+            ABOUT_ME: 'aboutMe',
+            NODE_MESSAGES: 'messages',
+            NODE_USERS: 'users',
+            UPLOAD_CHANGED: 'state_changed',
+            DOC_ADDED: 'added',
+            PREFIX_IMAGE: 'image/'
+        }
     }
 
     componentDidMount() {
@@ -38,63 +48,68 @@ class Main extends Component {
                 })
             } 
             else {
+                alert("here")
+                alert(user.uid)
                 if (user) {
                     const result = await myFirestore
-                        .collection(AppString.NODE_USERS)
-                        .where(AppString.ID, '==', user.uid)
+                        .collection(this.data.NODE_USERS)
+                        .where("uid", '==', user.uid)
                         .get()
 
                     if (result.docs.length === 0) {
                         // Set new data since this is a new user
+                        alert("here")
                         myFirestore
                             .collection('users')
                             .doc(user.uid)
                             .set({
+                                uid:user.uid,
                                 id: user.uid,
                                 nickname: user.displayName,
                                 aboutMe: '',
                                 photoUrl: user.photoURL
-                            })
+                            },{ merge: true })
                             .then(data => {
                                 // Write user info to local
-                                localStorage.setItem(AppString.ID, user.uid)
-                                localStorage.setItem(AppString.NICKNAME, user.displayName)
-                                localStorage.setItem(AppString.PHOTO_URL, user.photoURL)
+                                this.data.ID= user.uid
+                                this.data.NICKNAME= user.displayName
+                                this.data.PHOTO_URL=user.photoURL
+                                this.currentUserAvatar=this.data.PHOTO_URL
+                                this.currentUserNickname=this.data.NICKNAME
                                 this.setState({isLoading: false}, () => {
                                     this.props.showToast(1, 'Login success')
                                     this.props.history.push('/main')
                                 })
+                                this.getListUser();
                             })
                     } else {
                         // Write user info to local
-                        localStorage.setItem(AppString.ID, result.docs[0].data().id)
-                        localStorage.setItem(
-                            AppString.NICKNAME,
-                            result.docs[0].data().nickname
-                        )
-                        localStorage.setItem(
-                            AppString.PHOTO_URL,
-                            result.docs[0].data().photoUrl
-                        )
-                        localStorage.setItem(
-                            AppString.ABOUT_ME,
-                            result.docs[0].data().aboutMe
-                        )
+                        this.data.ID=result.docs[0].data().uid
+                        this.data.NICKNAME=result.docs[0].data().nickname
+                        this.data.PHOTO_URL=result.docs[0].data().photoUrl
+                        this.data.ABOUT_ME=result.docs[0].data().aboutMe
                         this.setState({isLoading: false}, () => {
                             this.props.showToast(1, 'Login success')
-                            this.props.history.push('/main')
+                            //this.props.history.push('/main')
                         })
+                        this.getListUser();
                     }
+                    this.currentUserAvatar=this.data.PHOTO_URL
+                    this.currentUserNickname=this.data.NICKNAME
+                    
                 } else {
                     this.props.showToast(0, 'User info not available')
                 }
-                this.getListUser();
             }
         });
     }
 
     getListUser = async () => {
-        const result = await myFirestore.collection(AppString.NODE_USERS).get()
+        const res=await myFirestore.collection("users").doc(this.data.ID).get()
+        alert(res.data().friends)
+        const friends=res.data().friends
+        if(!friends.length)return;
+        const result = await myFirestore.collection("users").where("uid","in",friends).get()
         if (result.docs.length > 0) {
             this.listUser = [...result.docs]
             this.setState({isLoading: false})
@@ -139,7 +154,7 @@ class Main extends Component {
         if (this.listUser.length > 0) {
             let viewListUser = []
             this.listUser.forEach((item, index) => {
-                if (item.data().id !== this.currentUserId) {
+                if (item.data().id !== this.data.ID) {
                     viewListUser.push(
                         <button
                             key={index}

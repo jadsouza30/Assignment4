@@ -87,47 +87,59 @@ export default ({
   const [category, setCategory] = useState('')
   const [number,setNumber]=useState(0)
   const [imgSrc,setImgSrc]=useState("")
+  const [notify,setNotify]=useState("")
+
+  var user=null;
+
+  firebase.auth().onAuthStateChanged((use) => {
+    if(user!==null)return;
+    else if(use)
+    {
+      user=use;
+    }
+    else window.location.href="../innerPages/loginPage";
+  });
 
   const submitFunc=()=>{
-    var db=firebase.firestore();
-    var user = firebase.auth().currentUser;
-    var friends;
-    console.log(user);
-    db.collection('users').doc(user.uid).get().then(doc => {
-      friends = doc.data().friends;
-    }).then(()=> {
-      var links = [];
-      friends.forEach(function(element) {
-        var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + element + '/events/Y0cBxL0ADz'
-        links.push(l);
-      });
-      for (const l of links) {
-        var name;
-        if (user.displayName == null) {
-          name = 'Friend' + user.uid;
-        } else {
-          name = user.displayName;
+    if(notify==="yes"){
+      var db=firebase.firestore();
+      var friends;
+      db.collection('users').doc(user.uid).get().then(doc => {
+        friends = doc.data().friends;
+      }).then(()=> {
+        var links = [];
+        friends.forEach(function(element) {
+          var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + element + '/events/Y0cBxL0ADz'
+          links.push(l);
+        });
+        for (const l of links) {
+          var name;
+          if (user.displayName == null) {
+            name = 'Friend' + user.uid;
+          } else {
+            name = user.displayName;
+          }
+          var str = name + ' has created an event.'
+          const notiObject = {
+            msg: str
+          };
+          fetch(l, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(notiObject)
+          }).then(response => console.log(response));
         }
-        var str = name + ' has created an event.'
-        const notiObject = {
-          msg: str
-        };
-        fetch(l, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(notiObject)
-        }).then(response => console.log(response));
-      }
-    })
+      })
+    }
+
     var found=false;
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
     var db=firebase.firestore();
     var date=new Date(startDate+" "+startTime);
     var timeStamp=firebase.firestore.Timestamp.fromDate(date);
-    alert("here");
 
     function status(response) {
       if (response.status >= 200 && response.status < 300) {
@@ -166,16 +178,18 @@ export default ({
       db.collection("Events").add({
         MeetingNumber: `${res.data}`,
         category: category,
-        date: dateTime,
+        //date: dateTime,
         description: description,
         imgSrc: imgSrc,
         startDate:startDate,
         startTime:startTime,
         title:name,
-        date:timeStamp
+        date:timeStamp,
+        uid: firebase.auth().currentUser.uid
       })
       .then(function(docRef) {
-        window.location.href="/Meeting/landing/"+res.data;
+        
+        setTimeout(2000,()=>{window.location.href="/Meeting/landing/"+res.data;});
       })
       .catch(function(error){
         console.error(error);
@@ -200,8 +214,8 @@ export default ({
                 <Input type="time" placeholder="Start Time" onChange={event => setStartTime(event.target.value)}/>
                 <Input type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
                 <Input type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
-                <Input type="number" placeholder="Zoom Meeting ID" onChange={event => setNumber(event.target.value)}/>
                 <Input type="text" placeholder="Link to Image" onChange={event => setImgSrc(event.target.value)}/>
+                <Input type="text" placeholder="Notfy Friends" onChange={event => setNotify(event.target.value)}/>
                 <SubmitButton type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
                   <span className="text">Create</span>

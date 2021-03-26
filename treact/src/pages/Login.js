@@ -79,7 +79,7 @@ export default ({
   forgotPasswordUrl = "#",
   signupUrl = "#",
 }) => {
-  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  //var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
   var uiConfig = {
     callbacks: {
@@ -87,6 +87,34 @@ export default ({
         // User successfully signed in.
         // Return type determines whether we continue the redirect automatically
         // or whether we leave that to developer to handle.
+        var user = firebase.auth().currentUser;
+        alert(user.uid)
+
+        if(authResult.additionalUserInfo.isNewUser)
+        {
+          var user = firebase.auth().currentUser;
+          alert(user.uid)
+
+          firebase.firestore().collection("users")
+          .doc(user.uid)
+          .set({
+            friends: [],
+            uid: user.uid,
+            id: user.uid,
+            name: user.email,
+            bio: "hello world",
+            events: [],
+            //photoURL: user.PhotoUrl
+          })
+          .then(() => {
+            console.log("success!!!");
+          })
+          .catch(()=>{
+            alert("here");
+          }
+          );
+        }
+        alert("signed in");
         return true;
       },
       uiShown: function () {
@@ -97,7 +125,7 @@ export default ({
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: "popup",
-    signInSuccessUrl: "/",
+    signInSuccessUrl: "#",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -113,7 +141,14 @@ export default ({
     privacyPolicyUrl: "<your-privacy-policy-url>",
   };
 
-  ui.start("#firebaseui-auth-container", uiConfig);
+  if(firebaseui.auth.AuthUI.getInstance()) {
+      const ui = firebaseui.auth.AuthUI.getInstance()
+      ui.start('#firebaseui-auth-container', uiConfig)
+    } else {
+      const ui = new firebaseui.auth.AuthUI(firebase.auth())
+      ui.start('#firebaseui-auth-container', uiConfig)
+    }
+    
 
   return (
     <AnimationRevealPage>

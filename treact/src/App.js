@@ -108,6 +108,7 @@ import {toast, ToastContainer} from 'react-toastify'
 import ComponentRenderer from "ComponentRenderer.js";
 import MeetingRenderer from "MeetingRenderer.js";
 import MainLandingPage from "MainLandingPage.js";
+import ProfileRenderer from "ProfileRenderer.js";
 import { firebase } from "./backend/config";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -132,6 +133,9 @@ export default class App extends Component{
     return (
     <Router>
       <Switch>
+        <Route path="/Profile/:id">
+          <ProfileRenderer/>
+        </Route>
         <Route path="/Meeting/:type/:id">
           <MeetingRenderer/>
         </Route>

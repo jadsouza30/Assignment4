@@ -67,6 +67,7 @@ function Outer(props) {
       setchange(1)
       return (<Notification id={user.uid}/>);
     }
+    else window.location.href="http://localhost:3000/components/innerPages/LoginPage"
   });
 
   if (change == 0) {
@@ -76,6 +77,16 @@ function Outer(props) {
   return (<Notification id={user.uid}/>)
 }
 
+/*
+var signOut=
+{
+  firebase.auth().signOut().then(() => {
+  // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+  });
+}
+*/
 
 export default ({
   roundedHeaderButton = false,
@@ -99,9 +110,10 @@ export default ({
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">Search</NavLink>
-      <NavLink href="/#">Profile</NavLink>
-      <NavLink href="/#">Chat</NavLink>
+      <NavLink href="/">Search</NavLink>
+      <NavLink href="/Profile/profile">Profile</NavLink>
+      <NavLink href="/Profile/feed">Feed</NavLink>
+      <NavLink href="/main">Chat</NavLink>
     </NavLinks>,
   ];
 

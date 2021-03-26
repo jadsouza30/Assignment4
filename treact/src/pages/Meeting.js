@@ -19,7 +19,7 @@ import "@zoomus/websdk/dist/css/react-select.css";
 var signatureEndpoint = 'http://localhost:4000'
 var apiKey = 'y79B-jVQTySE6KkGoDc7JA'
 var meetingNumber = '9279407407'
-var role = 0
+var role = 1
 var leaveUrl = '/Meeting/landing/'
 var userName = 'React'
 var userEmail = 'jasondsouza0530@gmail.com'
@@ -52,7 +52,6 @@ function startMeeting(signature,id) {
         leaveUrl: leaveUrl+id,
         isSupportAV: true,
         success: (success) => {
-            console.log("here");
             console.log(success)
 
             ZoomMtg.join({

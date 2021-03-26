@@ -41,7 +41,7 @@ const PrimaryButton = styled(PrimaryButtonBase)(props => [
 
 
 export default ({
-  subheading = "Our Expertise",
+  subheading = "",
   heading = (
     <>
       Designed & Developed by <span tw="text-primary-500">Professionals.</span>
@@ -58,7 +58,8 @@ export default ({
   imageCss = null,
   imageDecoratorBlob = false,
   imageDecoratorBlobCss = null,
-  textOnLeft = true
+  textOnLeft = true,
+  onClick=""
 }) => {
   // The textOnLeft boolean prop can be used to display either the text on left or right side of the image.
 
@@ -74,7 +75,7 @@ export default ({
             <Subheading>{subheading}</Subheading>
             <Heading>{heading}</Heading>
             <Description>{description}</Description>
-            <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl}>
+            <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl} onClick={onClick}>
               {primaryButtonText}
             </PrimaryButton>
           </TextContent>
