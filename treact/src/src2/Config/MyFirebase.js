@@ -9,10 +9,14 @@ const config = {
     appId: "1:97936795244:web:70f7ffdabb00a9f6f01a49",
     measurementId: "G-5EJF6C4R4H"
 }
-//firebase.initializeApp(config)
-firebase.firestore().settings({
-    timestampsInSnapshots: true
-})
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+    firebase.firestore().settings({
+        timestampsInSnapshots: true
+    })
+}
+
 
 export const myFirebase = firebase
 export const myFirestore = firebase.firestore()

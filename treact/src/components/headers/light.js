@@ -101,16 +101,7 @@ export default ({
     <NavLinks key={1}>
       <NavLink href="/#">Search</NavLink>
       <NavLink href="/#">Profile</NavLink>
-      <NavLink href="/#" tw="lg:ml-12!">
-        Login
-      </NavLink>
-<<<<<<< HEAD
-=======
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`} href="/#">
-        Sign Up
-      </PrimaryLink>
-      <Outer />
->>>>>>> cd57e780125b56a5fa460cdf17d33a7051a763bb
+      <NavLink href="/#">Chat</NavLink>
     </NavLinks>,
   ];
 
@@ -156,7 +147,7 @@ export default ({
           )}
         </NavToggle>
       </MobileNavLinksContainer>
-      <Notification />
+      <Outer />
     </Header>
   );
 };

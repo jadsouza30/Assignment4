@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, {Component} from 'react'
 import ReactLoading from 'react-loading'
 import 'react-toastify/dist/ReactToastify.css'
-import {myFirestore, myStorage} from '../../Config/MyFirebase'
+import {myFirebase, myFirestore, myStorage} from '../../Config/MyFirebase'
 import images from '../Themes/Images'
 import './ChatBoard.css'
 import {AppString} from './../Const'
@@ -15,9 +15,9 @@ export default class ChatBoard extends Component {
             isShowSticker: false,
             inputValue: ''
         }
-        this.currentUserId = localStorage.getItem(AppString.ID)
-        this.currentUserAvatar = localStorage.getItem(AppString.PHOTO_URL)
-        this.currentUserNickname = localStorage.getItem(AppString.NICKNAME)
+        this.currentUserId = myFirebase.auth().currentUser.uid
+        this.currentUserAvatar = myFirebase.auth().currentUser.photoUrl
+        this.currentUserNickname = myFirebase.auth().currentUser.name
         this.listMessage = []
         this.currentPeerUser = this.props.currentPeerUser
         this.groupChatId = null
