@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "@firebase/auth";
 import "@firebase/firestore";
+import "@firebase/database";
 
 var firebaseConfig = {
   apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
@@ -10,18 +11,19 @@ var firebaseConfig = {
   messagingSenderId: "681502722062",
   appId: "1:681502722062:web:1a7e45f8c43cd9efd2145f",
   measurementId: "G-DRXMTZZBW3",
+  databaseURL: "https://proevento-69c0b-default-rtdb.firebaseio.com",
 };
 
 const fire = firebase.initializeApp(firebaseConfig);
 
-//is called automatically when there is a change in user state
-fire.auth().onAuthStateChanged((user) => {
-  if (user) {
-    //var uid = user.uid;
-  } else {
-    // User is signed out
-    user.logout();
-  }
-});
+// //is called automatically when there is a change in user state
+// fire.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     //var uid = user.uid;
+//   } else {
+//     // User is signed out
+//     user.logout();
+//   }
+// });
 
 export default fire;

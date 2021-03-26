@@ -1,4 +1,5 @@
 import firebase from "./backend/config";
+import fire from "./backend/config";
 
 var uniqid = require("uniqid");
 
@@ -39,12 +40,55 @@ const firebase_functions = {
     return response.val();
   },
 
+  eventCreator: async function (firebaseRef) {
+    var event_id = uniqid();
+
+    let event_name = [
+      "Joe's Pizza",
+      "Colliseum Athletics",
+      "Watson Gaming",
+      "Sweet Green",
+      "Yalta",
+      "Altered Energy",
+    ];
+    let category = [
+      "Gaming",
+      "Food",
+      "Athletics",
+      "Health",
+      "Drink",
+      "Fashion",
+    ];
+    fire
+      .database()
+      .ref("events/" + event_id)
+      .set({
+        host: "Jeff",
+        id: event_id,
+        url: "fake",
+        event_image: "https://pbs.twimg.com/media/ET1UHOxWoAMP75a.jpg",
+        event_title:
+          event_name[(Math.floor(Math.random() * 100) + 1) % event_name.length],
+        category:
+          category[(Math.floor(Math.random() * 100) + 1) % category.length],
+        startTime: "12",
+        featured: false,
+      });
+    // this.createEvent(
+    //   "Jeff",
+    //   "https://pbs.twimg.com/media/ET1UHOxWoAMP75a.jpg",
+    //   "fake",
+    //   firebaseRef,
+    //   event_name[(Math.floor(Math.random() * 100) + 1) % event_name.length],
+    //   category[(Math.floor(Math.random() * 100) + 1) % category.length],
+    //   "12"
+    // );
+  },
   // Creates Deal object for users
   createEvent: async function (
     host_name,
     img_,
     zoom_id,
-    start_time,
     firebaseRef,
     event_title,
     category,
@@ -52,8 +96,8 @@ const firebase_functions = {
   ) {
     //create unique event id
     var event_id = uniqid;
-    ////adds to event array
-    firebaseRef.child("events").child(event_id).set({
+
+    firebaseRef.child("events/" + event_id).set({
       host: host_name,
       id: event_id,
       url: zoom_id,
@@ -63,11 +107,11 @@ const firebase_functions = {
       startTime: startTime,
     });
     console.log("event created!");
-    firebaseRef
-      .child("users_public/" + global.userId)
-      .child("events")
-      .child(event_id);
-    console.log("event added to user!");
+    // firebaseRef
+    //   .child("users_public/" + global.userId)
+    //   .child("events")
+    //   .child(event_id);
+    // console.log("event added to user!");
   },
 
   searchEventbyName: async function (firebaseRef, title) {
