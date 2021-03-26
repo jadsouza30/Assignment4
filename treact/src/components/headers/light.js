@@ -108,12 +108,31 @@ export default ({
    * changing the defaultLinks variable below below.
    * If you manipulate links here, all the styling on the links is already done for you. If you pass links yourself though, you are responsible for styling the links or use the helper styled components that are defined here (NavLink)
    */
+  const SubmitButton = styled.button`
+    ${tw`mt-5 tracking-wide font-semibold bg-primary-500 text-gray-100 w-full py-4 rounded-lg hover:bg-primary-900 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
+    .icon {
+      ${tw`w-6 h-6 -ml-2`}
+    }
+    .text {
+      ${tw`ml-3`}
+    }
+  `;
+
+  const logOut=()=>{
+    firebase.auth().signOut().then(function() {
+      window.location.href="components/innerPages/loginPage"
+    }, function(error) {
+      console.error('Sign Out Error', error);
+    });
+  }
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/">Search</NavLink>
+      <NavLink href="/components/innerPages/BlogIndexPage">Search</NavLink>
       <NavLink href="/Profile/profile">Profile</NavLink>
       <NavLink href="/Profile/feed">Feed</NavLink>
       <NavLink href="/main">Chat</NavLink>
+      <NavLink href="/components/innerPages/SignupPage">Create</NavLink>
+      <NavLink onClick={logOut}>LogOut</NavLink>
     </NavLinks>,
   ];
 

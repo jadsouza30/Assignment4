@@ -165,9 +165,11 @@ export default class App extends Component{
                   <Profile showToast={this.showToast} {...this.props} />
               )}
           />
-          <Route path="/">
-            <MainLandingPage />
-          </Route>
+          <Route
+              exact
+              path="/main"
+              render={props => <Main showToast={this.showToast} {...this.props} />}
+          />
       </Switch>
     </Router>
   );

@@ -48,8 +48,8 @@ class Main extends Component {
                 })
             } 
             else {
-                alert("here")
-                alert(user.uid)
+                //alert("here")
+                //alert(user.uid)
                 if (user) {
                     const result = await myFirestore
                         .collection(this.data.NODE_USERS)
@@ -58,7 +58,7 @@ class Main extends Component {
 
                     if (result.docs.length === 0) {
                         // Set new data since this is a new user
-                        alert("here")
+                        //alert("here")
                         myFirestore
                             .collection('users')
                             .doc(user.uid)
@@ -106,7 +106,6 @@ class Main extends Component {
 
     getListUser = async () => {
         const res=await myFirestore.collection("users").doc(this.data.ID).get()
-        alert(res.data().friends)
         const friends=res.data().friends
         if(!friends.length)return;
         const result = await myFirestore.collection("users").where("uid","in",friends).get()

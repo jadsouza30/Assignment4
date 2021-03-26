@@ -32,12 +32,15 @@ export default (profile) => {
       let friends;
 
       function friend(){
-        alert(otherID)
+        //alert(otherID)
         firebase.firestore().collection("users").doc(uid).get()
         .then((doc)=>{
           var friends=doc.data().friends;
           friends.push(otherID);
           firebase.firestore().collection("users").doc(uid).set({friends:friends})
+          .then((res)=>{
+            window.location.href="../main"
+          })
         })
       }
 
@@ -51,8 +54,6 @@ export default (profile) => {
           var proms;
           var text="Join Meeting"
           uid=user.uid
-
-          
 
           if(id==="profile")
           {

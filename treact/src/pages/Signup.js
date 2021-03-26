@@ -12,6 +12,7 @@ import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus
 import firebase from "firebase";
 import {browserHistory} from "react-router";
 import axios from 'axios';
+import Header from "components/headers/light.js";
 
 const Container = tw(
   ContainerBase
@@ -121,7 +122,8 @@ export default ({
           }
           var str = name + ' has created an event.'
           const notiObject = {
-            msg: str
+            msg: str,
+
           };
           fetch(l, {
             method: 'POST',
@@ -171,7 +173,7 @@ export default ({
 
     var num;
 
-    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
+    axios.post('https://us-central1-proevento-69c0b.cloudfunctions.net/getMeetingID',data,options)
     .then((res)=>{
       console.log(res);
       num=res.data;
@@ -187,9 +189,8 @@ export default ({
         date:timeStamp,
         uid: firebase.auth().currentUser.uid
       })
-      .then(function(docRef) {
-        
-        setTimeout(2000,()=>{window.location.href="/Meeting/landing/"+res.data;});
+      .then(function(docRef){
+        window.location.href="/Meeting/landing/"+res.data;;
       })
       .catch(function(error){
         console.error(error);
@@ -199,13 +200,16 @@ export default ({
 
   return (
   <AnimationRevealPage>
+    
     <Container>
       <Content>
+      
         <MainContainer>
           <LogoLink href={logoLinkUrl}>
             <LogoImage src={logo} />
           </LogoLink>
           <MainContent>
+          <Header/>
             <Heading>Create an Event</Heading>
             <FormContainer>
               <Form>

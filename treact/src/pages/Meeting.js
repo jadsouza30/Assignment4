@@ -16,7 +16,7 @@ import 'crypto';
 import "@zoomus/websdk/dist/css/bootstrap.css";
 import "@zoomus/websdk/dist/css/react-select.css";
 
-var signatureEndpoint = 'http://localhost:4000'
+var signatureEndpoint = 'https://us-central1-proevento-69c0b.cloudfunctions.net/getSignature'
 var apiKey = 'y79B-jVQTySE6KkGoDc7JA'
 var meetingNumber = '9279407407'
 var role = 1

@@ -99,8 +99,8 @@ export default ({
           <Posts>
             {data.map((post, index) => (
               <PostContainer key={index} featured={0}>
-                <Post className="group" as="a" href={post.url}>
-                  <Image imageSrc={post.imageSrc} />
+                <Post className="group" as="a" href={"/Meeting/landing/"+post.MeetingNumber}>
+                  <Image imageSrc={post.imgSrc} />
                   <Info>
                     <Category>{post.category}</Category>
                     <CreationDate>{post.startTime+' '+post.startDate}</CreationDate>

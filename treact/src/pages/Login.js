@@ -88,12 +88,12 @@ export default ({
         // Return type determines whether we continue the redirect automatically
         // or whether we leave that to developer to handle.
         var user = firebase.auth().currentUser;
-        alert(user.uid)
+        //alert(user.uid)
 
         if(authResult.additionalUserInfo.isNewUser)
         {
           var user = firebase.auth().currentUser;
-          alert(user.uid)
+          //alert(user.uid)
 
           firebase.firestore().collection("users")
           .doc(user.uid)
@@ -110,11 +110,11 @@ export default ({
             console.log("success!!!");
           })
           .catch(()=>{
-            alert("here");
+            //alert("here");
           }
           );
         }
-        alert("signed in");
+        //alert("signed in");
         return true;
       },
       uiShown: function () {
@@ -125,7 +125,7 @@ export default ({
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: "popup",
-    signInSuccessUrl: "#",
+    signInSuccessUrl: "/main",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
