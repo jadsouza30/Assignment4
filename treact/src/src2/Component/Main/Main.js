@@ -7,6 +7,7 @@ import WelcomeBoard from '../WelcomeBoard/WelcomeBoard'
 import './Main.css'
 import ChatBoard from './../ChatBoard/ChatBoard'
 import {AppString} from './../Const'
+import Head from '../../../components/headers/light.js'
 
 class Main extends Component {
     constructor(props) {
@@ -28,7 +29,6 @@ class Main extends Component {
 
     checkLogin = () => {
         var user = myFirebase.auth().currentUser;
-
         if (user) {
             alert("here");
         } else {
@@ -37,7 +37,7 @@ class Main extends Component {
     }
 
     getListUser = async () => {
-        const result = await myFirestore.collection(AppString.NODE_USERS).get()
+        const result = await myFirestore.collection("users").get()
         if (result.docs.length > 0) {
             this.listUser = [...result.docs]
             this.setState({isLoading: false})
@@ -123,22 +123,7 @@ class Main extends Component {
         return (
             <div className="root">
                 {/* Header */}
-                <div className="header">
-                    <span>MAIN</span>
-                    <img
-                        className="icProfile"
-                        alt="An icon default avatar"
-                        src={images.ic_default_avatar}
-                        onClick={this.onProfileClick}
-                    />
-                    <img
-                        className="icLogout"
-                        alt="An icon logout"
-                        src={images.ic_logout}
-                        onClick={this.onLogoutClick}
-                    />
-                </div>
-
+                {(<Head />)}
                 {/* Body */}
                 <div className="body">
                     <div className="viewListUser"> {this.renderListUser()}</div>

@@ -2,12 +2,12 @@ import './Notification.css'
 import NotificationCenter from 'react-notification-center-component';
 import React, { useState } from 'react';
 
-function Notification() {
+function Notification(props) {
 
   return (
     <div>
       <div className="noti">
-        <NotificationCenter className="noticenter" appId="szJmGZMXtU" subscriberId="foo3"/>
+        <NotificationCenter className="noticenter" appId="szJmGZMXtU" subscriberId={props.id}/>
       </div>
     </div>
     
