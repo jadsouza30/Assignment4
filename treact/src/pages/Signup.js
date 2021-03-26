@@ -89,6 +89,38 @@ export default ({
   const [imgSrc,setImgSrc]=useState("")
 
   const submitFunc=()=>{
+    var db=firebase.firestore();
+    var user = firebase.auth().currentUser;
+    var friends;
+    console.log(user);
+    db.collection('users').doc(user.uid).get().then(doc => {
+      friends = doc.data().friends;
+    }).then(()=> {
+      var links = [];
+      friends.forEach(function(element) {
+        var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + element + '/events/Y0cBxL0ADz'
+        links.push(l);
+      });
+      for (const l of links) {
+        var name;
+        if (user.displayName == null) {
+          name = 'Friend' + user.uid;
+        } else {
+          name = user.displayName;
+        }
+        var str = name + ' has created an event.'
+        const notiObject = {
+          msg: str
+        };
+        fetch(l, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(notiObject)
+        }).then(response => console.log(response));
+      }
+    })
     var found=false;
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
