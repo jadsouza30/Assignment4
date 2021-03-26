@@ -120,6 +120,7 @@ export default ({
     setVisible((v) => v + 6);
   };
   const [data, setData] = useState(posts);
+  const [input, setInput] = useState("");
   console.log("setting data");
   const dataArray = Object.entries(data);
 
@@ -183,8 +184,8 @@ export default ({
       setData(posts);
       return;
     }
-    const fuse = new Fuse(posts, {
-      keys: ["event_title", "description"],
+    const fuse = new Fuse(Object.entries(data), {
+      keys: ["title", "description", "category", "date", "startDate", "startTime"],
     });
 
     const result = fuse.search(pattern);
@@ -247,7 +248,7 @@ export default ({
               className="SearchInput"
               type="text"
               onChange={(e) => {
-                setData(e.target.value);
+                setInput(e.target.value);
               }}
               placeholder="Search by user, event, time..."
             />
@@ -281,7 +282,7 @@ export default ({
           </div>
           {/* End Search Bar*/}
           <div className="container">
-            {container === "show" && <ShowResults value={data} />}
+            {container === "show" && <ShowResults value={input} />}
           </div>
           <Posts>
             <p style={{ textAlign: "center" }}>
