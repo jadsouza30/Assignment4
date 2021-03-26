@@ -44,7 +44,7 @@ const Post = tw.div`cursor-pointer flex flex-col bg-gray-100 rounded-lg`;
 const Image = styled.div`
   ${(props) =>
     css`
-      background-image: url("${props.imageSrc}");
+      background-image: url("${props.imgSrc}");
     `}
   ${tw`h-64 w-full bg-cover bg-center rounded-t-lg`}
 `;
@@ -62,7 +62,7 @@ export default ({
 
   posts = [
     {
-      imageSrc:
+      imgSrc:
         "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
       category: "Travel Guide",
       date: "April 19, 2020",
@@ -72,7 +72,7 @@ export default ({
       url: "https://reddit.com",
     },
     {
-      imageSrc:
+      imgSrc:
         "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
       category: "Travel Guide",
       date: "April 19, 2020",
@@ -85,7 +85,7 @@ export default ({
 
   //[
   //   {
-  //     imageSrc:
+  //     imgSrc:
   //       "https://images.unsplash.com/photo-1499678329028-101435549a4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
   //     category: "Travel Tips",
   //     date: "April 21, 2020",
@@ -141,7 +141,7 @@ export default ({
         // setPrimaryButtonLink(primaryButtonLink => newUrl);
         // setStartTime(startTime => doc.data().startTime);
         // setStartDate(startDate => doc.data().startDate);
-        // setImageSrc(imageSr => doc.data().imgSrc);
+        // setimgSrc(imageSr => doc.data().imgSrc);
         // setSubHeading(subheading => doc.data().category);
         new_posts.push(doc.data());
       });
@@ -150,7 +150,7 @@ export default ({
       }
       posts = new_posts;
       setData(new_posts);
-      console.log(posts.length);
+      console.log(posts);
       console.log("data set!");
       return posts;
     })
@@ -218,7 +218,7 @@ export default ({
         {matchesArray.slice(0, visible).map((post, index) => (
           <PostContainer key={index} featured={post.featured}>
             <Post className="group" as="a" href={post.MeetingNumber}>
-              <Image imageSrc={post.imageSrc} />
+              <Image imgSrc={post.imgSrc} />
               <Info>
                 <Category>{post.category}</Category>
                 <CreationDate>{post.startDate}</CreationDate>
@@ -288,10 +288,11 @@ export default ({
               <i> Search through these events:</i>{" "}
             </p>
 
-            {dataArray.slice(0, visible).map((post, index) => (
+            {data.slice(0, visible).map((post, index) => (
               <PostContainer key={index} featured={post.featured}>
                 <Post className="group" as="a" href={post.url}>
-                  <Image imageSrc={post.imageSrc} />
+                  <Image imgSrc={post.imgSrc} />
+                  {console.log("object value: ", post)}
                   <Info>
                     <Category>{post.category}</Category>
                     <CreationDate>{post.startDate}</CreationDate>
@@ -318,7 +319,7 @@ export default ({
 };
 
 const getPlaceholderPost = () => ({
-  imageSrc:
+  imgSrc:
     "https://images.unsplash.com/photo-1418854982207-12f710b74003?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80",
   category: "Travel Guide",
   date: "April 19, 2020",
