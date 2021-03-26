@@ -181,7 +181,6 @@ export default ({
   return (
     <AnimationRevealPage>
       <Header />
-      <Notification />
       <Container>
         <ContentWithPaddingXl>
           <HeadingRow>

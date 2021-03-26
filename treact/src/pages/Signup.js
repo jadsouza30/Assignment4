@@ -9,6 +9,9 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+import firebase from "firebase/app";
+import "firebase/auth";
+
 
 const Container = tw(
   ContainerBase
@@ -77,8 +80,22 @@ export default ({
   privacyPolicyUrl = "#",
   signInUrl = "#",
 }) => {
-  const submitFunc=()=>{
-    alert("here");
+  const submitFunc=(event)=>{
+    event.preventDefault();
+    const notiObject = {
+      msg: "User has created an event"
+    };
+    const id = 'foo3';
+    var user = firebase.auth().currentUser;
+    console.log(user);
+    var endpoint = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + id + '/events/Y0cBxL0ADz';
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(notiObject)
+    }).then(response => console.log(response));
   };
 
   return (

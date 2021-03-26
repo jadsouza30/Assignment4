@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
+import Notification from "components/misc/Notification";
+
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
@@ -80,6 +82,7 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
         Login
       </NavLink>
       <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
+      <Notification />
     </NavLinks>
   ];
 
