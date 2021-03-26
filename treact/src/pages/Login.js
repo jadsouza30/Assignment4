@@ -9,9 +9,9 @@ import logo from "images/logo.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
-import firebase from 'firebase'
-import * as firebaseui from 'firebaseui'
-import 'firebaseui/dist/firebaseui.css'
+import firebase from "firebase";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
 
 const Container = tw(
   ContainerBase
@@ -83,20 +83,20 @@ export default ({
 
   var uiConfig = {
     callbacks: {
-      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      signInSuccessWithAuthResult: function (authResult, redirectUrl) {
         // User successfully signed in.
         // Return type determines whether we continue the redirect automatically
         // or whether we leave that to developer to handle.
         return true;
       },
-      uiShown: function() {
+      uiShown: function () {
         // The widget is rendered.
         // Hide the loader.
-        document.getElementById('loader').style.display = 'none';
-      }
+        document.getElementById("loader").style.display = "none";
+      },
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-    signInFlow: 'popup',
+    signInFlow: "popup",
     signInSuccessUrl: "/",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
@@ -105,41 +105,44 @@ export default ({
       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       firebase.auth.GithubAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID,
     ],
     // Terms of service url.
-    tosUrl: '<your-tos-url>',
+    tosUrl: "<your-tos-url>",
     // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>'
+    privacyPolicyUrl: "<your-privacy-policy-url>",
   };
 
-  ui.start('#firebaseui-auth-container', uiConfig);
-
+  ui.start("#firebaseui-auth-container", uiConfig);
 
   return (
-  <AnimationRevealPage>
-    <Container>
-      <Content>
-        <MainContainer>
-          <LogoLink href={logoLinkUrl}>
-            <LogoImage src={logo} />
-          </LogoLink>
-          <MainContent>
-            <Heading>Sign In or Sign Up</Heading>
-            <FormContainer>
-            <div id="firebaseui-auth-container"></div>
-            <div id="loader">Loading...</div>     
-              
-              <p tw="mt-8 text-sm text-gray-600 text-center">
-                Dont have an account?{" "}
-                <a href={signupUrl} tw="border-b border-gray-500 border-dotted">
-                  Sign Up
-                </a>
-              </p>
-            </FormContainer>
-          </MainContent>
-        </MainContainer>
-      </Content>
-    </Container>
-  </AnimationRevealPage>
-)};
+    <AnimationRevealPage>
+      <Container>
+        <Content>
+          <MainContainer>
+            <LogoLink href={logoLinkUrl}>
+              <LogoImage src={logo} />
+            </LogoLink>
+            <MainContent>
+              <Heading>Sign In or Sign Up</Heading>
+              <FormContainer>
+                <div id="firebaseui-auth-container"></div>
+                <div id="loader">Loading...</div>
+
+                <p tw="mt-8 text-sm text-gray-600 text-center">
+                  Dont have an account?{" "}
+                  <a
+                    href={signupUrl}
+                    tw="border-b border-gray-500 border-dotted"
+                  >
+                    Sign Up
+                  </a>
+                </p>
+              </FormContainer>
+            </MainContent>
+          </MainContainer>
+        </Content>
+      </Container>
+    </AnimationRevealPage>
+  );
+};
