@@ -127,7 +127,8 @@ export default ({
   }
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/components/innerPages/BlogIndexPage">Search</NavLink>
+      <NavLink href="/components/innerPages/BlogIndexPage">Search Events</NavLink>
+      <NavLink href="/components/innerPages/SearchUsers">Search Users</NavLink>
       <NavLink href="/Profile/profile">Profile</NavLink>
       <NavLink href="/Profile/feed">Feed</NavLink>
       <NavLink href="/main">Chat</NavLink>

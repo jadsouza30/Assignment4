@@ -55,7 +55,7 @@ export default (profile) => {
           var text="Join Meeting"
           uid=user.uid
 
-          if(id==="profile")
+          if(id==="profile" || id==uid)
           {
             text="Start Meeting"
             id=user.uid;
