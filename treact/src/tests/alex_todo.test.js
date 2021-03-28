@@ -110,7 +110,6 @@ test("check if message box is empty after sending one", () => {
 
     const chatboard = getByTestId('viewBoard');
     chatboard.OnSendMessage('placeholder', 0)
-    chatboard.inputValue 
     expect(chatboard.inputValue).totoHaveTextContent("");
 });
 
