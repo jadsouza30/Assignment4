@@ -22,3 +22,10 @@ export const getMeetingFromDB=async (id)=>{
 export const errorComponent=()=>{
     return true
 }
+
+export const getFriends=async ()=>{
+    var user=await getUser()
+    if(user===null)window.location.href="components/innerPages/LoginPage"
+    var doc=await firebase.firestore().collection("users").doc(user.uid.toString()).get()
+    return doc.data().friends;
+}

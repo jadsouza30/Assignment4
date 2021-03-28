@@ -105,6 +105,7 @@ import {toast, ToastContainer} from 'react-toastify'
 // import TermsOfServicePage from "pages/TermsOfService.js";
 // import PrivacyPolicyPage from "pages/PrivacyPolicy.js";
 
+import Login2 from "./login/config/Login"
 import ComponentRenderer from "ComponentRenderer.js";
 import MeetingRenderer from "MeetingRenderer.js";
 import MainLandingPage from "MainLandingPage.js";
@@ -133,6 +134,9 @@ export default class App extends Component{
     return (
     <Router>
       <Switch>
+        <Route path="/login2">
+          <Login2 />
+        </Route>
         <Route path="/Profile/:id">
           <ProfileRenderer/>
         </Route>

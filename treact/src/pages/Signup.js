@@ -13,7 +13,7 @@ import firebase from "firebase";
 import {browserHistory} from "react-router";
 import axios from 'axios';
 import Header from "components/headers/light.js";
-import {getUser} from "../backend/util"
+import {getUser,getFriends} from "../backend/util"
 
 const Container = tw(
   ContainerBase
@@ -81,13 +81,6 @@ const alertUser=async (uid,eventType,meetingID)=>{
   })
   .then(response => console.log(response))
   .catch(console.error)
-}
-
-const getFriends=async ()=>{
-  var user=await getUser()
-  if(user===null)window.location.href="components/innerPages/LoginPage"
-  var doc=await firebase.firestore().collection("users").doc(user.uid.toString()).get()
-  return doc.data().friends;
 }
 
 const alertFollowers=async (eventType,meetingID)=>{

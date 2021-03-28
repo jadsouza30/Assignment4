@@ -62,7 +62,6 @@ const IllustrationImage = styled.div`
 const defaultPic="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/USC_Trojans_logo.svg/1200px-USC_Trojans_logo.svg.png"
 
 const createUserInDB=async (user)=>{
-  alert(user.uid)
   let value=await firebase.firestore().collection("users").doc(user.uid).set(
     {
       friends: [],
@@ -82,12 +81,12 @@ const signInHandler=async (authResult)=>{
       var user = await getUser();
       if(user!=null)
       {
-        alert("here1")
         await createUserInDB(user)
       }
       else console.log("error getting user")
   }
-  else console.log("user already created");
+  else alert("user already created");
+  window.location.href="../../main"
 }
 
 export default ({
@@ -116,8 +115,8 @@ export default ({
   var uiConfig = {
     callbacks: {
       signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
-        await signInHandler(authResult);
-        return false;
+        signInHandler(authResult);
+        return false
       },
       uiShown: function () {
         document.getElementById("loader").style.display = "none";
@@ -125,7 +124,7 @@ export default ({
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: "popup",
-    signInSuccessUrl: "main",
+    signInSuccessUrl: "#",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,

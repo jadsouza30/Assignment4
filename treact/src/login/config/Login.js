@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import fire from "../../backend/config";
+//import fire from "../../backend/config";
+import fire from "./fire"
 import "./Login.css";
 import firebasefunctions from "firebasefunctions";
 require("firebase/auth");
@@ -17,6 +18,7 @@ class Login extends Component {
       email: "",
       password: "",
     };
+    alert("here")
   }
   login(e) {
     e.preventDefault();
