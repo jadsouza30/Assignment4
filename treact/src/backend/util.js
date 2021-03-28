@@ -12,3 +12,7 @@ export const getUser= ()=>{
       });
     })
 }
+
+export const errorComponent=()=>{
+    return true
+}
