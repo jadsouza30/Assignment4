@@ -15,6 +15,7 @@ import Fuse from "fuse.js";
 import 'crypto';
 import "@zoomus/websdk/dist/css/bootstrap.css";
 import "@zoomus/websdk/dist/css/react-select.css";
+import {getUser,getMeetingFromDB} from "../backend/util"
 
 var signatureEndpoint = 'https://us-central1-proevento-69c0b.cloudfunctions.net/getSignature'
 var apiKey = 'y79B-jVQTySE6KkGoDc7JA'
@@ -25,7 +26,12 @@ var userName = 'React'
 var userEmail = 'jasondsouza0530@gmail.com'
 var passWord = 'Hey123'
 
-function getSignature(id) {
+async function getSignature(id) {
+    const user=await getUser();
+    const meeting=await getMeetingFromDB(id)
+    userName=user.displayName===null?user.uid:user.displayName
+    role=user.uid.toString()===meeting.uid.toString()?1:0
+    
     fetch(signatureEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -13,6 +13,12 @@ export const getUser= ()=>{
     })
 }
 
+export const getMeetingFromDB=async (id)=>{
+    const query=await firebase.firestore().collection("Events").where("MeetingNumber","==",id.toString()).get()
+    if(query.docs.length===0)return null
+    return query.docs[0].data()
+}
+
 export const errorComponent=()=>{
     return true
 }

@@ -75,9 +75,9 @@ export default ({
             <Subheading>{subheading}</Subheading>
             <Heading>{heading}</Heading>
             <Description>{description}</Description>
-            <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl} onClick={onClick}>
+            {primaryButtonText!=="" && <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl} onClick={onClick}>
               {primaryButtonText}
-            </PrimaryButton>
+            </PrimaryButton>}
           </TextContent>
         </TextColumn>
       </TwoColumn>

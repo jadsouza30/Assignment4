@@ -142,8 +142,6 @@ export default ({
   const [notify,setNotify]=useState("")
 
   const submitFunc=async ()=>{
-    return
-    
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
     var db=firebase.firestore();
@@ -165,8 +163,9 @@ export default ({
         'Content-Type': 'application/json',
       }
     };
+    const user=await getUser()
 
-    axios.post('https://us-central1-proevento-69c0b.cloudfunctions.net/getMeetingID',data,options)
+    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
     .then(async (res)=>{
       var options={
         MeetingNumber: res.data.toString(),
@@ -175,7 +174,8 @@ export default ({
         imgSrc: imgSrc,
         startDate:startDate,
         startTime:startTime,
-        title:name
+        title:name,
+        uid:user.uid
       }
       if(notify==="yes")await alertFollowers("has created an event",res.data)
       await addMeetingToDB(options)

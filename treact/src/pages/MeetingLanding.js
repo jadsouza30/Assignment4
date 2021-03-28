@@ -6,10 +6,7 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 import Header from "components/headers/light.js";
 import Footer from "components/footers/FiveColumnWithInputForm.js";
 import MainFeature1 from "components/features/TwoColWithButton.js";
-// import MainFeature2 from "components/features/TwoColSingleFeatureWithStats.js";
-// import MainFeature3 from "components/features/TwoColSingleFeatureWithStats2.js";
 import Features from "components/features/ThreeColSimple.js";
-// import Features from "components/features/ThreeColWithSideImage.js";
 import TeamCardGrid from "components/cards/ProfileThreeColGrid.js";
 
 import SupportIconImage from "images/support-icon.svg";
@@ -26,11 +23,16 @@ export default (id) => {
   const [startTime,setStartTime]=useState("");
   const [startDate,setStartDate]=useState("");
   const [subheading,setSubHeading]=useState("");
+  const [buttonText,setButtonText]=useState("");
  
   var db=firebase.firestore();
   db.collection("Events").where("MeetingNumber", "==", id).limit(1)
     .get()
     .then((querySnapshot) => {
+        if(!querySnapshot.length)
+        {
+          setHeading("Meeting not found")
+        }
         querySnapshot.forEach((doc) => {
             console.log(doc.id, " => ", doc.data());
             setHeading(heading => doc.data().title+" : "+doc.data().startTime+" "+doc.data().startDate);
@@ -41,6 +43,7 @@ export default (id) => {
             setStartDate(startDate => doc.data().startDate);
             setImageSrc(imageSr => doc.data().imgSrc);
             setSubHeading(subheading => doc.data().category);
+            setButtonText(buttonText=>"Join Meeting")
         });
     })
     .catch((error) => {
@@ -54,7 +57,7 @@ export default (id) => {
         subheading={<Subheading>{subheading}</Subheading>}
         heading={heading}
         buttonRounded={false}
-        primaryButtonText="Join Meeting"
+        primaryButtonText={buttonText}
         primaryButtonUrl={primaryButtonLink}
         description={descript}
         imageSrc={imageSr}

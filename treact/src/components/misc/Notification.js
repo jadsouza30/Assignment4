@@ -7,7 +7,7 @@ function Notification(props) {
   return (
     <div>
       <div className="noti">
-        <NotificationCenter className="noticenter" appId="szJmGZMXtU" subscriberId={props.id}/>
+        <NotificationCenter className="noticenter" appId="7RSvlrMSZE" subscriberId={props.id}/>
       </div>
     </div>
     
