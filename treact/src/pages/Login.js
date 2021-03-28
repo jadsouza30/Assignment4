@@ -12,6 +12,7 @@ import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg
 import firebase from "firebase";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
+import {getUser} from "../backend/util"
 
 const Container = tw(
   ContainerBase
@@ -73,19 +74,6 @@ const createUserInDB=async (user)=>{
       photoURL:user.photoURL==null?defaultPic:user.photoURL
     })
     .then(console.log)
-}
-
-const getUser=()=>{
-  return new Promise((resolve,reject)=>
-  {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        resolve(user)
-      } else {
-        resolve(null)
-      }
-    });
-  })
 }
 
 const signInHandler=async (authResult)=>{

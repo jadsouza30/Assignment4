@@ -13,6 +13,7 @@ import firebase from "firebase";
 import {browserHistory} from "react-router";
 import axios from 'axios';
 import Header from "components/headers/light.js";
+import {getUser} from "../backend/util"
 
 const Container = tw(
   ContainerBase
@@ -59,6 +60,54 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-lg bg-contain bg-center bg-no-repeat`}
 `;
 
+const alertUser=async (uid,eventType)=>{
+  var user=await getUser()
+  if(user===null)window.location.href="components/innerPages/LoginPage"
+
+  var name=user.displayName===null?"friend":user.displayName
+  var str = name + ' '+eventType
+  const notiObject = {
+    msg: str,
+  };
+  var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + uid + '/events/Y0cBxL0ADz'
+  fetch(l, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(notiObject)
+  })
+  .then(response => console.log(response))
+  .catch(console.error)
+}
+
+const getFriends=async ()=>{
+  var user=await getUser()
+  if(user===null)window.location.href="components/innerPages/LoginPage"
+  var doc=await firebase.firestore().collection("users").doc(user.uid.toString()).get()
+  return doc.data().friends;
+}
+
+const alertFollowers=async (eventType)=>{
+  var friends=await getFriends()
+  alert(friends)
+  for(let i in friends)
+  {
+    await alertUser(friends[i],eventType)
+  }
+}
+
+const addMeetingToDB=async (meeting)=>{
+  var user=await getUser()
+  if(user===null)window.location.href="components/innerPages/LoginPage"
+
+  await firebase.firestore().collection("Events").add(meeting)
+  .then(function(docRef){
+    window.location.href="/Meeting/landing/"+meeting.MeetingNumber;
+  })
+  .catch(console.error);
+}
+
 export default ({
   logoLinkUrl = "#",
   illustrationImageSrc = illustration,
@@ -90,70 +139,14 @@ export default ({
   const [imgSrc,setImgSrc]=useState("")
   const [notify,setNotify]=useState("")
 
-  var user=null;
+  const submitFunc=async ()=>{
+    if(notify==="yes")await alertFollowers("has created an event")
 
-  firebase.auth().onAuthStateChanged((use) => {
-    if(user!==null)return;
-    else if(use)
-    {
-      user=use;
-    }
-    else window.location.href="../innerPages/loginPage";
-  });
-
-  const submitFunc=()=>{
-    if(notify==="yes"){
-      var db=firebase.firestore();
-      var friends;
-      db.collection('users').doc(user.uid).get().then(doc => {
-        friends = doc.data().friends;
-      }).then(()=> {
-        var links = [];
-        friends.forEach(function(element) {
-          var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + element + '/events/Y0cBxL0ADz'
-          links.push(l);
-        });
-        for (const l of links) {
-          var name;
-          if (user.displayName == null) {
-            name = 'Friend' + user.uid;
-          } else {
-            name = user.displayName;
-          }
-          var str = name + ' has created an event.'
-          const notiObject = {
-            msg: str,
-
-          };
-          fetch(l, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(notiObject)
-          }).then(response => console.log(response));
-        }
-      })
-    }
-
-    var found=false;
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
     var db=firebase.firestore();
     var date=new Date(startDate+" "+startTime);
     var timeStamp=firebase.firestore.Timestamp.fromDate(date);
-
-    function status(response) {
-      if (response.status >= 200 && response.status < 300) {
-        return Promise.resolve(response)
-      } else {
-        return Promise.reject(new Error(response.statusText))
-      }
-    }
-
-    function json(response) {
-      return response
-    }
 
     const data={
       name:name,
@@ -171,36 +164,23 @@ export default ({
       }
     };
 
-    var num;
-
-    axios.post('https://us-central1-proevento-69c0b.cloudfunctions.net/getMeetingID',data,options)
-    .then((res)=>{
-      console.log(res);
-      num=res.data;
-      db.collection("Events").add({
-        MeetingNumber: `${res.data}`,
+    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
+    .then(async (res)=>{
+      var options={
+        MeetingNumber: res.data.toString(),
         category: category,
-        //date: dateTime,
         description: description,
         imgSrc: imgSrc,
         startDate:startDate,
         startTime:startTime,
-        title:name,
-        date:timeStamp,
-        uid: firebase.auth().currentUser.uid
-      })
-      .then(function(docRef){
-        window.location.href="/Meeting/landing/"+res.data;;
-      })
-      .catch(function(error){
-        console.error(error);
-      });
+        title:name
+      }
+      addMeetingToDB(options)
     })
   };
 
   return (
-  <AnimationRevealPage>
-    
+  <AnimationRevealPage> 
     <Container>
       <Content>
       
