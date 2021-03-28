@@ -58,6 +58,50 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-sm bg-contain bg-center bg-no-repeat`}
 `;
 
+const defaultPic="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/USC_Trojans_logo.svg/1200px-USC_Trojans_logo.svg.png"
+
+const createUserInDB=async (user)=>{
+  alert(user.uid)
+  let value=await firebase.firestore().collection("users").doc(user.uid).set(
+    {
+      friends: [],
+      uid: user.uid,
+      id: user.uid,
+      bio: "hello world",
+      events: [],
+      name:user.displayName==null?"user":user.displayName,
+      photoURL:user.photoURL==null?defaultPic:user.photoURL
+    })
+    .then(console.log)
+}
+
+const getUser=()=>{
+  return new Promise((resolve,reject)=>
+  {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        resolve(user)
+      } else {
+        resolve(null)
+      }
+    });
+  })
+}
+
+const signInHandler=async (authResult)=>{
+  if(authResult.additionalUserInfo.isNewUser)
+  {
+      var user = await getUser();
+      if(user!=null)
+      {
+        alert("here1")
+        await createUserInDB(user)
+      }
+      else console.log("error getting user")
+  }
+  else console.log("user already created");
+}
+
 export default ({
   logoLinkUrl = "#",
   illustrationImageSrc = illustration,
@@ -77,55 +121,23 @@ export default ({
   submitButtonText = "Sign In",
   SubmitButtonIcon = LoginIcon,
   forgotPasswordUrl = "#",
-  signupUrl = "#",
+  signupUrl = "",
 }) => {
   //var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
   var uiConfig = {
     callbacks: {
-      signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-        // User successfully signed in.
-        // Return type determines whether we continue the redirect automatically
-        // or whether we leave that to developer to handle.
-        var user = firebase.auth().currentUser;
-        //alert(user.uid)
-
-        if(authResult.additionalUserInfo.isNewUser)
-        {
-          var user = firebase.auth().currentUser;
-          //alert(user.uid)
-
-          firebase.firestore().collection("users")
-          .doc(user.uid)
-          .set({
-            friends: [],
-            uid: user.uid,
-            id: user.uid,
-            name: user.email,
-            bio: "hello world",
-            events: [],
-            //photoURL: user.PhotoUrl
-          })
-          .then(() => {
-            console.log("success!!!");
-          })
-          .catch(()=>{
-            //alert("here");
-          }
-          );
-        }
-        //alert("signed in");
-        return true;
+      signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
+        await signInHandler(authResult);
+        return false;
       },
       uiShown: function () {
-        // The widget is rendered.
-        // Hide the loader.
         document.getElementById("loader").style.display = "none";
       },
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: "popup",
-    signInSuccessUrl: "/main",
+    signInSuccessUrl: "",
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -137,17 +149,16 @@ export default ({
     ],
     // Terms of service url.
     tosUrl: "<your-tos-url>",
-    // Privacy policy url.
     privacyPolicyUrl: "<your-privacy-policy-url>",
   };
 
   if(firebaseui.auth.AuthUI.getInstance()) {
       const ui = firebaseui.auth.AuthUI.getInstance()
       ui.start('#firebaseui-auth-container', uiConfig)
-    } else {
+  } else {
       const ui = new firebaseui.auth.AuthUI(firebase.auth())
       ui.start('#firebaseui-auth-container', uiConfig)
-    }
+  }
     
 
   return (
@@ -163,7 +174,6 @@ export default ({
               <FormContainer>
                 <div id="firebaseui-auth-container"></div>
                 <div id="loader">Loading...</div>
-
                 <p tw="mt-8 text-sm text-gray-600 text-center">
                   Dont have an account?{" "}
                   <a
