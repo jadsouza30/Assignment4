@@ -203,12 +203,13 @@ export default ({
           <i> Search through these users:</i>{" "}
         </p>
 
-        {data.slice(0, visible).map((post, index) => (
-          <PostContainer key={index} featured={post.featured}>
-            <Post className="group" as="a" href={post.url}>
-              <Image imgSrc={post.photoUrl} />
+        {data.slice(0, visible).map((user, index) => (
+          <PostContainer key={index} featured={user.featured}>
+            <Post className="group" as="a" href={user.url}>
+              <Image imgSrc={user.photoUrl} />
               <Info>
-                <Title>{post.nickname}</Title>
+                <Title>{user.nickname}</Title>
+                <Description>{user.aboutMe}</Description>
               </Info>
             </Post>
           </PostContainer>
@@ -256,10 +257,25 @@ const showData = () => {
       return;
     }
     console.log("searching through: ", Object.values(data));
-    let searchData = Object.values(data);
-    const fuse = new Fuse(searchData, {
-      keys: ["category", "title", "startDate", "startTime"],
-    });
+    let searchDat = Object.values(data);
+
+    var fuse;
+    if (toggleE) {
+      fuse = new Fuse(searchDat, {
+        keys: ["category", "title", "startDate", "startTime"],
+      });
+
+    } else if (toggleU) {
+      fuse = new Fuse(searchDat, {
+        keys: ["aboutMe", "nickname"],
+      });
+
+    } else {
+      fuse = new Fuse(searchDat, {
+        keys: ["category", "title", "startDate", "startTime"],
+      });
+
+    }
 
     const result = fuse.search(pattern);
     const matches = [];
@@ -283,13 +299,13 @@ const showData = () => {
     let matchesArray = searchData(value.value);
     if (!matchesArray) return;
     console.log("returned array of matches: ", matchesArray);
-    return (
+    return toggleE ? (
       <Posts>
         <p style={{ textAlign: "center" }}>
           <i> Search results:</i>{" "}
         </p>
 
-        {matchesArray.slice(0, visible).map((post, index) => (
+        {matchesArray.map((post, index) => (
           <PostContainer key={index} featured={post.featured}>
             <Post className="group" as="a" href={post.MeetingNumber}>
               <Image imgSrc={post.imgSrc} />
@@ -304,6 +320,25 @@ const showData = () => {
           </PostContainer>
         ))}
       </Posts>
+    ) : (
+      <Posts>
+        <p style={{ textAlign: "center" }}>
+          <i> Search results:</i>{" "}
+        </p>
+
+        {matchesArray.map((user, index) => (
+          <PostContainer key={index} featured={user.featured}>
+            <Post className="group" as="a" href={user.url}>
+              <Image imgSrc={user.photoUrl} />
+              <Info>
+                <Title>{user.nickname}</Title>
+                <Description>{user.aboutMe}</Description>
+              </Info>
+            </Post>
+          </PostContainer>
+        ))}
+      </Posts>
+
     );
   };
 
