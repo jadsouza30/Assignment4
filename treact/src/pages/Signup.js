@@ -60,17 +60,18 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-lg bg-contain bg-center bg-no-repeat`}
 `;
 
-const alertUser=async (uid,eventType)=>{
+const alertUser=async (uid,eventType,meetingID)=>{
   var user=await getUser()
   if(user===null)window.location.href="components/innerPages/LoginPage"
 
   var name=user.displayName===null?"friend":user.displayName
   var str = name + ' '+eventType
   const notiObject = {
-    msg: str,
-    urlVar: "meeting/Landing/12345"
+    name: "Jason",
+    eventName: "skateboard",
+    urlVar: "../../Meeting/landing/"+meetingID.toString()
   };
-  var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + uid + '/events/Y0cBxL0ADz'
+  var l = 'https://api.ravenhub.io/company/7RSvlrMSZE/subscribers/' + uid + '/events/8VNgJeJf44'
   fetch(l, {
     method: 'POST',
     headers: {
@@ -89,12 +90,12 @@ const getFriends=async ()=>{
   return doc.data().friends;
 }
 
-const alertFollowers=async (eventType)=>{
+const alertFollowers=async (eventType,meetingID)=>{
   var friends=await getFriends()
   alert(friends)
   for(let i in friends)
   {
-    await alertUser(friends[i],eventType)
+    await alertUser(friends[i],eventType,meetingID)
   }
 }
 
@@ -141,9 +142,8 @@ export default ({
   const [notify,setNotify]=useState("")
 
   const submitFunc=async ()=>{
-    if(notify==="yes")await alertFollowers("has created an event")
     return
-
+    
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
     var db=firebase.firestore();
@@ -166,7 +166,7 @@ export default ({
       }
     };
 
-    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
+    axios.post('https://us-central1-proevento-69c0b.cloudfunctions.net/getMeetingID',data,options)
     .then(async (res)=>{
       var options={
         MeetingNumber: res.data.toString(),
@@ -177,7 +177,8 @@ export default ({
         startTime:startTime,
         title:name
       }
-      addMeetingToDB(options)
+      if(notify==="yes")await alertFollowers("has created an event",res.data)
+      await addMeetingToDB(options)
     })
   };
 
