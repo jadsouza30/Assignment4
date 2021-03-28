@@ -68,6 +68,7 @@ const alertUser=async (uid,eventType)=>{
   var str = name + ' '+eventType
   const notiObject = {
     msg: str,
+    urlVar: "meeting/Landing/12345"
   };
   var l = 'https://api.ravenhub.io/company/szJmGZMXtU/subscribers/' + uid + '/events/Y0cBxL0ADz'
   fetch(l, {
@@ -141,6 +142,7 @@ export default ({
 
   const submitFunc=async ()=>{
     if(notify==="yes")await alertFollowers("has created an event")
+    return
 
     var time=startTime+":00";
     var dateTime=startDate+"T"+time;
