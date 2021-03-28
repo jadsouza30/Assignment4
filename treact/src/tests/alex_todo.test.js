@@ -8,7 +8,7 @@ import Login from "../pages/Login"
 import { createRenderer } from 'react-dom/test-utils';
 import Main from 'src2/Component/Main/Main';
 import ChatBoard from 'src2/Component/ChatBoard/ChatBoard'
-
+import MeetingLanding from 'pages/MeetingLanding'
 // test('outer initialization', () => {
 //   const config = {
 //     apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
@@ -124,7 +124,8 @@ test('zoom meeting request check firebase', async()=> {
     measurementId: "G-DRXMTZZBW3"
 };
   firebase.initializeApp(config);
-render(<Main />);
+render(<MeetingLanding />);
+var db=firebase.firestore();
     db.collection("Events").where("MeetingNumber", "==", 12345).limit(1)
     .get()
     .then((querySnapshot) => {
