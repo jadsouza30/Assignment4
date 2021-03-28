@@ -110,10 +110,21 @@ test("check if message box is empty after sending one", () => {
 
     const chatboard = getByTestId('viewBoard');
     chatboard.OnSendMessage('placeholder', 0)
-    expect(chatboard.inputValue).totoHaveTextContent("");
+    expect(chatboard.state.inputValue).totoHaveTextContent("");
 });
 
 test('zoom meeting request check firebase', async()=> {
+  const config = {
+    apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
+    authDomain: "proevento-69c0b.firebaseapp.com",
+    projectId: "proevento-69c0b",
+    storageBucket: "proevento-69c0b.appspot.com",
+    messagingSenderId: "681502722062",
+    appId: "1:681502722062:web:1a7e45f8c43cd9efd2145f",
+    measurementId: "G-DRXMTZZBW3"
+};
+  firebase.initializeApp(config);
+render(<Main />);
     db.collection("Events").where("MeetingNumber", "==", 12345).limit(1)
     .get()
     .then((querySnapshot) => {
