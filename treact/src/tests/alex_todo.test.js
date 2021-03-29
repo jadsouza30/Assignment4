@@ -55,7 +55,7 @@ test('check for firebase container', () => {
   expect(outerElement).toBeInTheDocument();
 })
 
-test('load main with placeholder id', () => {
+test('load main with placeholder id', async () => {
     const config = {
       apiKey: "AIzaSyAip5qxPcgUN-U105qoszmQNyw0J5DYs6g",
       authDomain: "proevento-69c0b.firebaseapp.com",
