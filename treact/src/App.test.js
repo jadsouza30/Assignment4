@@ -11,7 +11,6 @@ const routes = {
     login: `${appUrlBase}/login2`,
   },
   private: {
-    home: `${appUrlBase}/home`,
     account: `${appUrlBase}/account`,
     search: `${appUrlBase}/components/innerPages/BlogIndexPage`,
     main: `${appUrlBase}/main`,
@@ -23,7 +22,7 @@ let page;
 beforeAll(async () => {
   // launch browser
   browser = await puppeteer.launch({
-    headless: true, // headless mode set to false so browser opens up with visual feedback
+    headless: false, // headless mode set to false so browser opens up with visual feedback
     slowMo: 250, // how slow actions should be
     devtools: true,
   });
@@ -43,7 +42,7 @@ describe("on search page", () => {
       (e) => e.textContent
     );
     expect(html).toBe("Find Events and Users");
-  });
+  }, 16000);
 
   test("search returns results container", async () => {
     try {
@@ -57,23 +56,95 @@ describe("on search page", () => {
     const results = await page.$eval("#results", (e) => e.textContent);
     expect(results).toBeTruthy();
   });
+});
 
-  test("search hides results on clear", async () => {
-    await page.screenshot({
-      path: "C:/Users/Liza/csci310/src/test/clear-search-test.png",
-    });
-    browser.close();
-  });
-  // test('search works for blank input', async() => {
-  //
-  // });
-  // test('search filters work', async() => {
-  //
-  // });
-  // test('load more button works', async() => {
-  //
-  // });
-  // test('search returns accurate results', async() => {
-  //
-  // });
+// test("search hides results on clear", async () => {
+//   await page.screenshot({
+//     path: "/test/clear-search-test.png",
+//   });
+//   browser.close();
+// });
+// test('search works for blank input', async() => {
+//
+// });
+// test('search filters work', async() => {
+//
+// });
+// test('load more button works', async() => {
+//
+// });
+// test('search returns accurate results', async() => {
+//
+// });
+describe("SignUp", () => {
+  test("users can signup", async () => {
+    await page.goto(routes.public.login);
+    await page.waitForSelector(".logincontainer");
+
+    await page.click("input[name=email]");
+    await page.type("input[name=email]", "yomi@mail.com");
+    await page.click("input[name=password]");
+    await page.type("input[name=password]", "password");
+    await page.click("button[type=signup]");
+    await page.waitForSelector(".root");
+  }, 1600000);
+  test("users can login", async () => {
+    await page.goto(routes.public.login);
+    await page.waitForSelector(".logincontainer");
+
+    await page.click("input[name=email]");
+    await page.type("input[name=email]", "yomi@mail.com");
+    await page.click("input[name=password]");
+    await page.type("input[name=password]", "password");
+    await page.click("button[type=login]");
+    await page.waitForSelector(".root");
+  }, 1600000);
+  test("users can signout", async () => {
+    await page.goto(routes.private.main);
+    await page.waitForSelector(".root");
+    await page.click(".LogOut");
+    await page.waitForSelector(".loginPage");
+  }, 1600000);
+});
+describe("Unathorized view", () => {
+  test("users that are not logged in are redirected to sign in page", async () => {
+    await page.goto(routes.private.main);
+    await page.waitForSelector(".logincontainer");
+  }, 9000000);
+});
+describe("Nav Tests", () => {
+  test("does search event work ", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".SearchEvents");
+    await page.waitForSelector(".BlogPage");
+  }, 9000000);
+  test("does search users work", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".SearchEvents");
+    await page.waitForSelector(".group");
+  }, 9000000);
+  test("does profile work", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".Profile");
+    await page.waitForSelector(".ProfilePage");
+  }, 9000000);
+  test("does feed work", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".Feed");
+    await page.waitForSelector(".ProfilePage");
+  }, 9000000);
+  test("does main work", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".Main");
+    await page.waitForSelector(".root");
+  }, 9000000);
+  test("does main work", async () => {
+    await page.goto(routes.private.main);
+    await page.click(".Main");
+    await page.waitForSelector(".loginPage");
+  }, 9000000);
+});
+
+afterAll(() => {
+  browser.close();
 });

@@ -12,7 +12,7 @@ import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg
 import firebase from "firebase";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
-import {getUser} from "../backend/util"
+import { getUser } from "../backend/util";
 
 const Container = tw(
   ContainerBase
@@ -59,35 +59,35 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-sm bg-contain bg-center bg-no-repeat`}
 `;
 
-const defaultPic="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/USC_Trojans_logo.svg/1200px-USC_Trojans_logo.svg.png"
+const defaultPic =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/USC_Trojans_logo.svg/1200px-USC_Trojans_logo.svg.png";
 
-const createUserInDB=async (user)=>{
-  let value=await firebase.firestore().collection("users").doc(user.uid).set(
-    {
+const createUserInDB = async (user) => {
+  let value = await firebase
+    .firestore()
+    .collection("users")
+    .doc(user.uid)
+    .set({
       friends: [],
       uid: user.uid,
       id: user.uid,
       bio: "hello world",
       events: [],
-      name:user.displayName==null?"user":user.displayName,
-      photoURL:user.photoURL==null?defaultPic:user.photoURL
+      name: user.displayName == null ? "user" : user.displayName,
+      photoURL: user.photoURL == null ? defaultPic : user.photoURL,
     })
-    .then(console.log)
-}
+    .then(console.log);
+};
 
-const signInHandler=async (authResult)=>{
-  if(authResult.additionalUserInfo.isNewUser)
-  {
-      var user = await getUser();
-      if(user!=null)
-      {
-        await createUserInDB(user)
-      }
-      else console.log("error getting user")
-  }
-  else //alert("user already created");
-  window.location.href="../../main"
-}
+const signInHandler = async (authResult) => {
+  if (authResult.additionalUserInfo.isNewUser) {
+    var user = await getUser();
+    if (user != null) {
+      await createUserInDB(user);
+    } else console.log("error getting user");
+  } else alert("user already created");
+  window.location.href = "../../main";
+};
 
 export default ({
   logoLinkUrl = "#",
@@ -116,7 +116,7 @@ export default ({
     callbacks: {
       signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
         signInHandler(authResult);
-        return false
+        return false;
       },
       uiShown: function () {
         document.getElementById("loader").style.display = "none";
@@ -139,14 +139,13 @@ export default ({
     privacyPolicyUrl: "<your-privacy-policy-url>",
   };
 
-  if(firebaseui.auth.AuthUI.getInstance()) {
-      const ui = firebaseui.auth.AuthUI.getInstance()
-      ui.start('#firebaseui-auth-container', uiConfig)
+  if (firebaseui.auth.AuthUI.getInstance()) {
+    const ui = firebaseui.auth.AuthUI.getInstance();
+    ui.start("#firebaseui-auth-container", uiConfig);
   } else {
-      const ui = new firebaseui.auth.AuthUI(firebase.auth())
-      ui.start('#firebaseui-auth-container', uiConfig)
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start("#firebaseui-auth-container", uiConfig);
   }
-
 
   return (
     <AnimationRevealPage>
@@ -159,7 +158,7 @@ export default ({
             <MainContent>
               <Heading>Sign In or Sign Up</Heading>
               <FormContainer>
-                <div id="firebaseui-auth-container"></div>
+                <div className="loginPage" id="firebaseui-auth-container"></div>
                 <div id="loader">Loading...</div>
                 <p tw="mt-8 text-sm text-gray-600 text-center">
                   Dont have an account?{" "}
