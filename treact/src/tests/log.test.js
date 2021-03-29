@@ -1,45 +1,51 @@
 import React from 'react';
 import "firebase";
 import Login from '../login/config/Login';
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, getByText, getByDisplayValue, getAllByDisplayValue} from '@testing-library/react';
+import TestRenderer from 'react-test-renderer';
+import { shallow, mount } from "enzyme";
 
 describe("login testcase", () => {
+
+    it("Check if all the values have been parsed appropriately", () => {
+    const logintest = TestRenderer.create(<Login></Login>);
+    let v = logintest.toJSON();
+    });
     
-    it("should render login component", () => {
-        //const props = { name: "Vignesh", place: "Bangalore", location: { pin: '12345'}};
-        //const { location: { pin } } = props;
-        const {getByTestId} = render(<Login />); //{} = render returns an object.
+    it("login component render check", () => {
+        const {getByTestId} = render(<Login />); 
         expect(getByTestId("login-container")).toBeTruthy();
     });
 
-    it("should render Email input field", () => {
-        const {getByTestId} = render(<Login />); //{} = render returns an object.
+    it("Email input field render check", () => {
+        const {getByTestId} = render(<Login />); 
         expect(getByTestId("email")).toBeTruthy();
     });
 
-    it("should render Password input field", () => {
-        const {getByTestId} = render(<Login />); //{} = render returns an object.
+    it("Password input field", () => {
+        const {getByTestId} = render(<Login />); 
         expect(getByTestId("password")).toBeTruthy();
     });
 
 
     it("should render Login button", () => {
-        const {getByTestId} = render(<Login />); //{} = render returns an object.
+        const {getByTestId} = render(<Login />); 
         expect(getByTestId("login-button")).toBeTruthy();
     });
 
     it("should render Signup button", () => {
-        const {getByTestId} = render(<Login />); //{} = render returns an object.
+        const {getByTestId} = render(<Login />); 
         expect(getByTestId("signup-button")).toBeTruthy();
     });
 
 
 
 
-    /*it("should call login onclick login button", () => {
+/*
+    it("should call login onclick login button", () => {
         const login= jest.fn();
         const {getByTestId} = render(<Login />); //{} = render returns an object.
-        fireEvent.click(getByTestId('login-button'));
+        login.click(getByTestId('login-button'));
         expect(login).toHaveBeenCalled();
     });*/
     
@@ -61,3 +67,9 @@ describe("login testcase", () => {
     expect(v).toHaveBeenCalledTimes(1);
     });*/
   });
+
+  /*test("Click", () => {
+    const {container} = render(<Login />);
+    const button = getAllByDisplayValue('Login');
+    fireEvent.click(button);
+});*/
