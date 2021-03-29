@@ -85,7 +85,7 @@ const signInHandler=async (authResult)=>{
       }
       else console.log("error getting user")
   }
-  else alert("user already created");
+  else //alert("user already created");
   window.location.href="../../main"
 }
 
@@ -146,7 +146,7 @@ export default ({
       const ui = new firebaseui.auth.AuthUI(firebase.auth())
       ui.start('#firebaseui-auth-container', uiConfig)
   }
-    
+
 
   return (
     <AnimationRevealPage>

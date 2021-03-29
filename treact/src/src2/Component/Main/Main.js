@@ -48,7 +48,7 @@ class Main extends Component {
                 })
             } 
             else {
-                //alert("here")alert(user.uid)
+                ////alert("here")//alert(user.uid)
                 if (user) {
                     const result = await myFirestore
                         .collection(this.data.NODE_USERS)
@@ -57,7 +57,7 @@ class Main extends Component {
 
                     if (result.docs.length === 0) {
                         // Set new data since this is a new user
-                        alert(user.uid)
+                        //alert(user.uid)
                         myFirestore
                             .collection('users')
                             .doc(user.uid)

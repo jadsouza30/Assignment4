@@ -32,7 +32,7 @@ export default (profile) => {
       let friends;
 
       function friend(){
-        //alert(otherID)
+        ////alert(otherID)
         firebase.firestore().collection("users").doc(uid).get()
         .then((doc)=>{
           var friends=doc.data().friends;
