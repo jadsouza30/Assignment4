@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import Notification from "components/misc/Notification";
 import firebase from "firebase";
-
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
@@ -60,21 +59,23 @@ export const DesktopNavLinks = tw.nav`
 `;
 
 function Outer(props) {
-  const [change, setchange] = useState(0)
+  const [change, setchange] = useState(0);
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      setchange(1)
-      return (<Notification id={user.uid}/>);
+      setchange(1);
+      return <Notification id={user.uid} />;
+    } else {
+      window.location.href =
+        "http://localhost:3000/components/innerPages/LoginPage";
     }
-    else window.location.href="http://localhost:3000/components/innerPages/LoginPage"
   });
 
   if (change == 0) {
-    return (<div></div>);
+    return <div></div>;
   }
-  var user = firebase.auth().currentUser; 
-  return (<Notification id={user.uid}/>)
+  var user = firebase.auth().currentUser;
+  return <Notification id={user.uid} />;
 }
 
 /*
@@ -118,22 +119,48 @@ export default ({
     }
   `;
 
-  const logOut=()=>{
-    firebase.auth().signOut().then(function() {
-      window.location.href="components/innerPages/loginPage"
-    }, function(error) {
-      console.error('Sign Out Error', error);
-    });
-  }
+  const logOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(
+        function () {
+          window.location.href = "components/innerPages/loginPage";
+        },
+        function (error) {
+          console.error("Sign Out Error", error);
+        }
+      );
+  };
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/components/innerPages/BlogIndexPage">Search Events</NavLink>
-      <NavLink href="/components/innerPages/SearchUsers">Search Users</NavLink>
-      <NavLink href="/Profile/profile">Profile</NavLink>
-      <NavLink href="/Profile/feed">Feed</NavLink>
-      <NavLink href="/main">Chat</NavLink>
-      <NavLink href="/components/innerPages/SignupPage">Create</NavLink>
-      <NavLink onClick={logOut}>LogOut</NavLink>
+      <NavLink
+        className="SearchEvents"
+        href="/components/innerPages/BlogIndexPage"
+      >
+        Search Events
+      </NavLink>
+      <NavLink
+        className="Search Users"
+        href="/components/innerPages/SearchUsers"
+      >
+        Search Users
+      </NavLink>
+      <NavLink className="Profile" href="/Profile/profile">
+        Profile
+      </NavLink>
+      <NavLink className="Feed" href="/Profile/feed">
+        Feed
+      </NavLink>
+      <NavLink className="Main" href="/main">
+        Chat
+      </NavLink>
+      <NavLink className="SignUp" href="/components/innerPages/SignupPage">
+        Create
+      </NavLink>
+      <NavLink className="LogOut" onClick={logOut}>
+        LogOut
+      </NavLink>
     </NavLinks>,
   ];
 
@@ -141,11 +168,7 @@ export default ({
   const collapseBreakpointCss =
     collapseBreakPointCssMap[collapseBreakpointClass];
 
-  const defaultLogoLink = (
-    <LogoLink href="/">
-      ProEvento
-    </LogoLink>
-  );
+  const defaultLogoLink = <LogoLink href="/">ProEvento</LogoLink>;
 
   logoLink = logoLink || defaultLogoLink;
   links = links || defaultLinks;
