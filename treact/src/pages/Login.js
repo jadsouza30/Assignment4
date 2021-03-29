@@ -85,7 +85,7 @@ const signInHandler = async (authResult) => {
     if (user != null) {
       await createUserInDB(user);
     } else console.log("error getting user");
-  } else alert("user already created");
+  } else console.log("user already created");
   window.location.href = "../../main";
 };
 

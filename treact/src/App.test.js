@@ -43,6 +43,7 @@ describe("on search page", () => {
     );
     expect(html).toBe("Find Events and Users");
   }, 16000);
+  /*
 
   test("search returns results container", async () => {
     try {
@@ -56,62 +57,9 @@ describe("on search page", () => {
     const results = await page.$eval("#results", (e) => e.textContent);
     expect(results).toBeTruthy();
   });
+  */
 });
 
-<<<<<<< HEAD
-  // test("search hides results on clear", async () => {
-  //   await page.screenshot({
-  //     path: "/test/clear-search-test.png",
-  //   });
-  //   browser.close();
-  // });
-  // test('search works for blank input', async() => {
-  //
-  // });
-  // test('search filters work', async() => {
-  //
-  // });
-  // test('load more button works', async() => {
-  //
-  // });
-  // test('search returns accurate results', async() => {
-  //
-  // });
-  describe("SignUp", () => {
-    test("users can signup", async () => {
-      await page.goto(routes.public.login);
-      await page.waitForSelector(".logincontainer");
-
-      await page.click("input[name=email]");
-      await page.type("input[name=email]", "yomi@mail.com");
-      await page.click("input[name=password]");
-      await page.type("input[name=password]", "password");
-      await page.click("button[type=signup]");
-      await page.waitForSelector(".root");
-    }, 1600000);
-    test("users can login", async () => {
-      await page.goto(routes.public.login);
-      await page.waitForSelector(".logincontainer");
-
-      await page.click("input[name=email]");
-      await page.type("input[name=email]", "yomi@mail.com");
-      await page.click("input[name=password]");
-      await page.type("input[name=password]", "password");
-      await page.click("button[type=login]");
-      await page.waitForSelector(".root");
-    }, 1600000);
-  });
-  describe("Unathorized view", () => {
-    test("users that are not logged in are redirected to sign in page", async () => {
-      await page.goto(routes.private.main);
-      await page.waitForSelector(".logincontainer");
-    }, 9000000);
-  });
-
-  afterAll(() => {
-    browser.close();
-  });
-=======
 // test("search hides results on clear", async () => {
 //   await page.screenshot({
 //     path: "/test/clear-search-test.png",
@@ -130,6 +78,7 @@ describe("on search page", () => {
 // test('search returns accurate results', async() => {
 //
 // });
+/*
 describe("SignUp", () => {
   test("users can signup", async () => {
     await page.goto(routes.public.login);
@@ -198,8 +147,8 @@ describe("Nav Tests", () => {
     await page.waitForSelector(".loginPage");
   }, 9000000);
 });
+*/
 
 afterAll(() => {
   browser.close();
->>>>>>> bf1ac3490e324b00fb2dae489b84609de779f3f8
 });

@@ -85,7 +85,6 @@ const alertUser=async (uid,eventType,meetingID)=>{
 
 const alertFollowers=async (eventType,meetingID)=>{
   var friends=await getFriends()
-  //alert(friends)
   for(let i in friends)
   {
     await alertUser(friends[i],eventType,meetingID)
