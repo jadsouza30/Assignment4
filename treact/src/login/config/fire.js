@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import "firebase/storage";
 
 const settings = {timestampsInSnapshots: true};
 
@@ -26,7 +27,7 @@ var firebaseConfig = {
       //var uid = user.uid;
     } else {
       // User is signed out
-      user.logout();
+      //user.logout();
     }
   });
 

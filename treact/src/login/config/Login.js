@@ -1,69 +1,72 @@
 import React, { Component } from "react";
-//import fire from "../../backend/config";
-import fire from "./fire";
 import "./Login.css";
+import firebase from "./fire"
 import firebasefunctions from "firebasefunctions";
-require("firebase/auth");
-require("firebase/database");
+import "./Login.css";
+import "firebase";
+import "firebase/auth";
+import { useHistory } from 'react-router-dom';
 
-var firebaseRef = fire.database().ref();
+var firebaseRef = firebase.database().ref();
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.login = this.login.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.signup = this.signup.bind(this);
     this.state = {
       email: "",
       password: "",
+      user:{}
     };
-    alert("here");
   }
-  login(e) {
+  login = (e) => {
     e.preventDefault();
-
-    fire
+    let history = useHistory();
+    firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((u) => {
         console.log(u);
+        history.push("/components/innerPages/BlogIndexPage");
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  signup(e) {
+  signup = (e) => {
     e.preventDefault();
-    fire
+    firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((u) => {
-        firebasefunctions.createUser(
+      .then((response) => {
+        /*firebasefunctions.createUser(
           "Jeff",
           this.state.email,
           "hello world",
           firebaseRef
-        );
-        console.log(u);
+        );*/
+        const {user} =  response;
+        this.setState({user});
+        console.log(response);
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  handleChange(e) {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
   render() {
+    const { user } = this.state;
     return (
-      <div className="logincontainer">
+      <div className="logincontainer" data-testid="login-container">
         <form>
           <input
             className="emailinput"
             type="email"
             id="email"
+            data-testid="email"
             name="email"
             placeholder="enter email address"
             onChange={this.handleChange}
@@ -73,34 +76,23 @@ class Login extends Component {
             className="pwinput"
             name="password"
             type="password"
+            data-testid="password"
             onChange={this.handleChange}
             id="password"
             placeholder="enter password"
             value={this.state.password}
           />
           <div className="buttongroup">
-            <button
-              className="loginbutton"
-              type="login"
-              onClick={() => {
-                this.login();
-                window.location.href = "http://localhost:3000/main";
-              }}
-            >
+            <button className="loginbutton" data-testid = "login-button" onClick={this.login}>
               Login
             </button>
-            <button
-              className="signupbutton"
-              type="signup"
-              onClick={() => {
-                this.signup();
-                window.location.href = "http://localhost:3000/main";
-              }}
-            >
+            <button className="signupbutton" data-testid="signup-button" onClick={this.signup}>
               Signup
             </button>
           </div>
         </form>
+        {user && user.email && <div>
+        <h2>User EmailID: { user.email} </h2></div> }
       </div>
     );
   }
