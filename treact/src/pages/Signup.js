@@ -88,7 +88,7 @@ const alertFollowers=async (eventType,meetingID)=>{
   //alert(friends)
   for(let i in friends)
   {
-    await //alertUser(friends[i],eventType,meetingID)
+    await alertUser(friends[i],eventType,meetingID)
   }
 }
 
@@ -170,16 +170,16 @@ export default ({
         title:name,
         uid:user.uid
       }
-      if(notify==="yes")await //alertFollowers("has created an event",res.data)
+      if(notify==="yes")await alertFollowers("has created an event",res.data)
       await addMeetingToDB(options)
     })
   };
 
   return (
-  <AnimationRevealPage> 
+  <AnimationRevealPage>
     <Container>
       <Content>
-      
+
         <MainContainer>
           <LogoLink href={logoLinkUrl}>
             <LogoImage src={logo} />

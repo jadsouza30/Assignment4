@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 //import fire from "../../backend/config";
-import fire from "./fire"
+import fire from "./fire";
 import "./Login.css";
 import firebasefunctions from "firebasefunctions";
 require("firebase/auth");
@@ -18,7 +18,7 @@ class Login extends Component {
       email: "",
       password: "",
     };
-    ////alert("here")
+    alert("here");
   }
   login(e) {
     e.preventDefault();
@@ -79,10 +79,24 @@ class Login extends Component {
             value={this.state.password}
           />
           <div className="buttongroup">
-            <button className="loginbutton" onClick={this.login}>
+            <button
+              className="loginbutton"
+              type="login"
+              onClick={() => {
+                this.login();
+                window.location.href = "http://localhost:3000/main";
+              }}
+            >
               Login
             </button>
-            <button className="signupbutton" onClick={this.signup}>
+            <button
+              className="signupbutton"
+              type="signup"
+              onClick={() => {
+                this.signup();
+                window.location.href = "http://localhost:3000/main";
+              }}
+            >
               Signup
             </button>
           </div>
