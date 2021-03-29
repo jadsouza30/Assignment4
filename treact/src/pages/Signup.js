@@ -60,7 +60,7 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-lg bg-contain bg-center bg-no-repeat`}
 `;
 
-const //alertUser=async (uid,eventType,meetingID)=>{
+const alertUser=async (uid,eventType,meetingID)=>{
   var user=await getUser()
   if(user===null)window.location.href="components/innerPages/LoginPage"
 
@@ -83,7 +83,7 @@ const //alertUser=async (uid,eventType,meetingID)=>{
   .catch(console.error)
 }
 
-const //alertFollowers=async (eventType,meetingID)=>{
+const alertFollowers=async (eventType,meetingID)=>{
   var friends=await getFriends()
   //alert(friends)
   for(let i in friends)
