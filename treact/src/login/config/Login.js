@@ -18,7 +18,7 @@ class Login extends Component {
       email: "",
       password: "",
     };
-    alert("here")
+    ////alert("here")
   }
   login(e) {
     e.preventDefault();

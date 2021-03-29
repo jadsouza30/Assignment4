@@ -22,7 +22,7 @@ let page;
 beforeAll(async () => {
   // launch browser
   browser = await puppeteer.launch({
-    headless: false, // headless mode set to false so browser opens up with visual feedback
+    headless: true, // headless mode set to false so browser opens up with visual feedback
     slowMo: 250, // how slow actions should be
     devtools: true,
   });
@@ -42,7 +42,7 @@ describe("on search page", () => {
       (e) => e.textContent
     );
     expect(html).toBe("Find Events and Users");
-  }, 16000);
+  });
 
   test("search returns results container", async () => {
     try {

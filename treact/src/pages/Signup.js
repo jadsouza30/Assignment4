@@ -60,7 +60,7 @@ const IllustrationImage = styled.div`
   ${tw`m-12 xl:m-16 w-full max-w-lg bg-contain bg-center bg-no-repeat`}
 `;
 
-const alertUser=async (uid,eventType,meetingID)=>{
+const //alertUser=async (uid,eventType,meetingID)=>{
   var user=await getUser()
   if(user===null)window.location.href="components/innerPages/LoginPage"
 
@@ -83,12 +83,12 @@ const alertUser=async (uid,eventType,meetingID)=>{
   .catch(console.error)
 }
 
-const alertFollowers=async (eventType,meetingID)=>{
+const //alertFollowers=async (eventType,meetingID)=>{
   var friends=await getFriends()
-  alert(friends)
+  //alert(friends)
   for(let i in friends)
   {
-    await alertUser(friends[i],eventType,meetingID)
+    await //alertUser(friends[i],eventType,meetingID)
   }
 }
 
@@ -170,7 +170,7 @@ export default ({
         title:name,
         uid:user.uid
       }
-      if(notify==="yes")await alertFollowers("has created an event",res.data)
+      if(notify==="yes")await //alertFollowers("has created an event",res.data)
       await addMeetingToDB(options)
     })
   };
