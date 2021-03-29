@@ -13,6 +13,7 @@ import firebase from "firebase";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import { getUser } from "../backend/util";
+import { NavLink } from 'react-router-dom'
 
 const Container = tw(
   ContainerBase
@@ -156,6 +157,8 @@ export default ({
               <LogoImage src={logo} />
             </LogoLink>
             <MainContent>
+              <NavLink to="/components/innerPages/LoginPage2"> Email Login </NavLink>
+
               <Heading>Sign In or Sign Up</Heading>
               <FormContainer>
                 <div className="loginPage" id="firebaseui-auth-container"></div>

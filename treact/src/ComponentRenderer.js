@@ -102,6 +102,7 @@ import FiveColumnDarkFooter from "components/footers/FiveColumnDark.js";
 import MiniCenteredFooter from "components/footers/MiniCenteredFooter.js";
 
 import App from "login/App.js";
+import Login from "login/config/Login";
 
 export const components = {
   landingPages: {
@@ -197,7 +198,7 @@ export const components = {
       imageSrc: PrivacyPolicyPageImageSrc,
     },
     LoginPage2: {
-      component: App,
+      component: Login,
       imageSrc: LoginPageImageSrc,
       scrollAnimationDisabled: true,
       url: "/components/innerPages/LoginPage2",
