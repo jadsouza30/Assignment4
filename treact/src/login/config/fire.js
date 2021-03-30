@@ -1,5 +1,4 @@
-import firebase from 'firebase';
-import "firebase/storage";
+import firebase from "firebase"
 
 const settings = {timestampsInSnapshots: true};
 
@@ -13,14 +12,15 @@ var firebaseConfig = {
   measurementId: "G-DRXMTZZBW3"
   };
 
-   if (!firebase.apps.length) {
+  if(!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
     firebase.firestore().settings(settings);
   }
 
   export const myFirebase = firebase
   export const myFirestore = firebase.firestore()
-  export const myStorage = firebase.storage()
+  export const myStorage=firebase.storage()
+  //export const myStorage=firebase.storage().ref()
   //is called automatically when there is a change in user state
   firebase.app().auth().onAuthStateChanged((user) => {
     if (user) {

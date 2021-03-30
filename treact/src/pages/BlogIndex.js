@@ -205,7 +205,7 @@ export default ({
 
         {data.slice(0, visible).map((user, index) => (
           <PostContainer key={index} featured={user.featured}>
-            <Post className="group" as="a" href={user.url}>
+            <Post className="group" as="a" href={user.uid}>
               <Image imgSrc={user.photoUrl} />
               <Info>
                 <Title>{user.nickname}</Title>
@@ -227,7 +227,7 @@ export default ({
 
         {data.slice(0, visible).map((post, index) => (
           <PostContainer key={index} featured={post.featured}>
-            <Post className="group" as="a" href={post.url}>
+            <Post className="group" as="a" href={post.MeetingNumber}>
               <Image imgSrc={post.imgSrc} />
               <Info>
                 <Category>{post.category}</Category>
@@ -345,10 +345,10 @@ const showData = () => {
   return (
     <AnimationRevealPage>
       <Header />
-      <Container>
+      <Container id="BlogPage">
         <ContentWithPaddingXl>
           <HeadingRow>
-            <Heading>{headingText}</Heading>
+            <Heading id="heading_text">{headingText}</Heading>
           </HeadingRow>
           {/*Search Bar*/}
           <div className="Search">

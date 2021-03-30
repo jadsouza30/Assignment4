@@ -135,30 +135,30 @@ export default ({
   const defaultLinks = [
     <NavLinks key={1}>
       <NavLink
-        className="SearchEvents"
+        id="SearchEvents"
         href="/components/innerPages/BlogIndexPage"
       >
         Search Events
       </NavLink>
       <NavLink
-        className="Search Users"
+        id="SearchUsers"
         href="/components/innerPages/SearchUsers"
       >
         Search Users
       </NavLink>
-      <NavLink className="Profile" href="/Profile/profile">
+      <NavLink id="Profile" href="/Profile/profile">
         Profile
       </NavLink>
-      <NavLink className="Feed" href="/Profile/feed">
+      <NavLink id="Feed" href="/Profile/feed">
         Feed
       </NavLink>
-      <NavLink className="Main" href="/main">
+      <NavLink id="Main" href="/main">
         Chat
       </NavLink>
-      <NavLink className="SignUp" href="/components/innerPages/SignupPage">
+      <NavLink id="SignUp" href="/components/innerPages/SignupPage">
         Create
       </NavLink>
-      <NavLink className="LogOut" onClick={logOut}>
+      <NavLink id="LogOut" onClick={logOut}>
         LogOut
       </NavLink>
     </NavLinks>,
@@ -192,6 +192,7 @@ export default ({
           {links}
         </MobileNavLinks>
         <NavToggle
+          id="toggle"
           onClick={toggleNavbar}
           className={showNavLinks ? "open" : "closed"}
         >

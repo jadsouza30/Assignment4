@@ -157,7 +157,7 @@ export default ({
     };
     const user=await getUser()
 
-    axios.post('http://localhost:5001/proevento-69c0b/us-central1/getMeetingID',data,options)
+    axios.post('https://us-central1-proevento-69c0b.cloudfunctions.net/getMeetingID',data,options)
     .then(async (res)=>{
       var options={
         MeetingNumber: res.data.toString(),
@@ -188,14 +188,14 @@ export default ({
             <Heading>Create an Event</Heading>
             <FormContainer>
               <Form>
-                <Input type="text" placeholder="Event Name" onChange={event => setName(event.target.value)}/>
-                <Input type="text" placeholder="Description" onChange={event => setDescription(event.target.value)}/>
-                <Input type="time" placeholder="Start Time" onChange={event => setStartTime(event.target.value)}/>
-                <Input type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
-                <Input type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
-                <Input type="text" placeholder="Link to Image" onChange={event => setImgSrc(event.target.value)}/>
-                <Input type="text" placeholder="Notfy Friends" onChange={event => setNotify(event.target.value)}/>
-                <SubmitButton type="button" onClick={submitFunc}>
+                <Input id="name" type="text" placeholder="Event Name" onChange={event => setName(event.target.value)}/>
+                <Input id="description" type="text" placeholder="Description" onChange={event => setDescription(event.target.value)}/>
+                <Input id="startTime" type="time" placeholder="Start Time" onChange={event => setStartTime(event.target.value)}/>
+                <Input id="startDate" type="date" placeholder="Start Date" onChange={event => setStartDate(event.target.value)}/>
+                <Input id="category" type="text" placeholder="Category" onChange={event => setCategory(event.target.value)}/>
+                <Input id="image" type="text" placeholder="Link to Image" onChange={event => setImgSrc(event.target.value)}/>
+                <Input id="notify" type="text" placeholder="Notfy Friends" onChange={event => setNotify(event.target.value)}/>
+                <SubmitButton id="submit" type="button" onClick={submitFunc}>
                   <SubmitButtonIcon className="icon" />
                   <span className="text">Create</span>
                 </SubmitButton>

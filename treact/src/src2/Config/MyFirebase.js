@@ -21,4 +21,4 @@ if (!firebase.apps.length) {
 
 export const myFirebase = firebase
 export const myFirestore = firebase.firestore()
-export const myStorage = firebase.storage()
+export const myStorage=firebase.storage()

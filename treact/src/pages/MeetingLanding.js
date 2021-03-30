@@ -29,13 +29,9 @@ export default (id) => {
   db.collection("Events").where("MeetingNumber", "==", id).limit(1)
     .get()
     .then((querySnapshot) => {
-        if(!querySnapshot.length)
-        {
-          setHeading("Meeting not found")
-        }
         querySnapshot.forEach((doc) => {
             console.log(doc.id, " => ", doc.data());
-            setHeading(heading => doc.data().title+" : "+doc.data().startTime+" "+doc.data().startDate);
+            if(heading.length===0|| heading==="Meeting not found")setHeading(heading => doc.data().title+" : "+doc.data().startTime+" "+doc.data().startDate);
             setDescript(descript => doc.data().description);
             var newUrl="/Meeting/event/"+doc.data().MeetingNumber;
             setPrimaryButtonLink(primaryButtonLink => newUrl);

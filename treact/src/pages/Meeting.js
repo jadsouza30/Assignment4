@@ -31,6 +31,7 @@ async function getSignature(id) {
     const meeting=await getMeetingFromDB(id)
     userName=user.displayName===null?user.uid:user.displayName
     role=user.uid.toString()===meeting.uid.toString()?1:0
+    role=1
     
     fetch(signatureEndpoint, {
       method: 'POST',

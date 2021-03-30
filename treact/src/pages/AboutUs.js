@@ -16,6 +16,7 @@ import SupportIconImage from "images/support-icon.svg";
 import ShieldIconImage from "images/shield-icon.svg";
 import CustomerLoveIconImage from "images/simple-icon.svg";
 import firebase from "firebase";
+import { Container } from "components/misc/Layouts";
 
 const Subheading = tw.span`uppercase tracking-wider text-sm`;
 
@@ -129,8 +130,9 @@ export default (profile) => {
       return (
     <AnimationRevealPage>
       <Header />
-
-      {features}
+      <Container id="ProfilePage">
+        {features}
+      </Container>
       <Footer />
     </AnimationRevealPage>
   );

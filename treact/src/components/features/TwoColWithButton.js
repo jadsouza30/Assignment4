@@ -67,15 +67,15 @@ export default ({
     <Container>
       <TwoColumn>
         <ImageColumn>
-          <Image css={imageCss} src={imageSrc} imageBorder={imageBorder} imageShadow={imageShadow} imageRounded={imageRounded}/>
+          <Image id="image" css={imageCss} src={imageSrc} imageBorder={imageBorder} imageShadow={imageShadow} imageRounded={imageRounded}/>
           {imageDecoratorBlob && <DecoratorBlob css={imageDecoratorBlobCss} />}
         </ImageColumn>
         <TextColumn textOnLeft={textOnLeft}>
           <TextContent>
             <Subheading>{subheading}</Subheading>
-            <Heading>{heading}</Heading>
+            <Heading id="title">{heading}</Heading>
             <Description>{description}</Description>
-            {primaryButtonText!=="" && <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl} onClick={onClick}>
+            {primaryButtonText!=="" && <PrimaryButton id="click" buttonRounded={buttonRounded} as="a" href={primaryButtonUrl} onClick={onClick}>
               {primaryButtonText}
             </PrimaryButton>}
           </TextContent>
